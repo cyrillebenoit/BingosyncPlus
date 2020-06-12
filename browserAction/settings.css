@@ -1,0 +1,18 @@
+#my-form {
+    width: 210px;
+    margin: 10px 7px;
+}
+
+.settings-block {
+    border: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+    margin: 2px 2px;
+    padding: 1px 2px;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 4px;
+}
