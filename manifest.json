@@ -7,6 +7,12 @@
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
   },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
   "content_scripts": [
     {
       "matches": [
@@ -41,6 +47,7 @@
     ]
   },
   "permissions": [
+    "activeTab",
     "storage",
     "tabs",
     "https://raw.githubusercontent.com/*"
@@ -49,4 +56,12 @@
     "open_in_tab": true,
     "page": "options/page.html"
   }
+    "tabs",
+    "declarativeContent"
+  ],
+  "page_action": {
+    "default_title": "Bingosync+",
+    "default_popup": "browserAction/settings.html"
+  },
+  "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'"
 }
