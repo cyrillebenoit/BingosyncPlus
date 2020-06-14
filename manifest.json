@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Provides a couple improvements to Bingosync",
   "icons": {
     "48": "icons/icon-48.png",
