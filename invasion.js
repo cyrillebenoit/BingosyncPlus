@@ -97,6 +97,25 @@ function getStartingLane(card, colors) {
         // is top valid
         if (isDirectionValid(directions[0])) {
             if (isDirectionValid(directions[1])) {
+                if (temporary_return) {
+                    switch (temporary_return.laneIndex) {
+                        case 0:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[1],
+                                laneIndex: 1,
+                                temporary: false
+                            };
+                        case 2:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[0],
+                                laneIndex: 0,
+                                temporary: false
+                            };
+                    }
+                }
+
                 // top-right
                 temporary_return = {
                     color: color,
@@ -106,6 +125,25 @@ function getStartingLane(card, colors) {
                 };
                 continue;
             } else if (isDirectionValid(directions[3])) {
+                if (temporary_return) {
+                    switch (temporary_return.laneIndex) {
+                        case 1:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[3],
+                                laneIndex: 3,
+                                temporary: false
+                            };
+                        case 3:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[0],
+                                laneIndex: 0,
+                                temporary: false
+                            };
+                    }
+                }
+
                 // top-left
                 temporary_return = {
                     color: color,
@@ -127,6 +165,25 @@ function getStartingLane(card, colors) {
 
         if (isDirectionValid(directions[2])) {
             if (isDirectionValid(directions[1])) {
+                if (temporary_return) {
+                    switch (temporary_return.laneIndex) {
+                        case 1:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[2],
+                                laneIndex: 2,
+                                temporary: false
+                            };
+                        case 3:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[1],
+                                laneIndex: 1,
+                                temporary: false
+                            };
+                    }
+                }
+
                 // bottom-right
                 temporary_return = {
                     color: color,
@@ -136,6 +193,25 @@ function getStartingLane(card, colors) {
                 };
                 continue;
             } else if (isDirectionValid(directions[3])) {
+                if (temporary_return) {
+                    switch (temporary_return.laneIndex) {
+                        case 0:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[2],
+                                laneIndex: 2,
+                                temporary: false
+                            };
+                        case 2:
+                            return {
+                                color: color,
+                                lane: STARTING_LANES[3],
+                                laneIndex: 3,
+                                temporary: false
+                            };
+                    }
+                }
+
                 // bottom-left
                 temporary_return = {
                     color: color,
@@ -363,6 +439,7 @@ function checkBoard() {
     // From Logical State define "Starting Lanes"
     if (startingLanes === undefined || TEMP_STARTING_LANES.includes(startingLanes[0].lane)) {
         const lane = getStartingLane(bingoCard, colors);
+        console.log(lane);
         if (lane) {
             let oppositeColor = colors[0] === lane.color ? colors[1] : colors[0];
             let oppositeLane = lane.temporary ?
