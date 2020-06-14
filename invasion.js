@@ -437,7 +437,7 @@ observer.observe(chat_element, {
  * Listen for messages from the background script.
  * Updates the config object. And reruns
  */
-browser.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message) => {
     if (message.command === "newconfig") {
         config = message.config;
         checkBoard();

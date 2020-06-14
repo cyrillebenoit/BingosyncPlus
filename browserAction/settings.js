@@ -30,11 +30,11 @@ function sendConfig() {
      * Get the active tab,
      * then send config.
      */
-    browser.tabs.query({
+    chrome.tabs.query({
         active: true,
         currentWindow: true
-    }).then(tabs => {
-        browser.tabs.sendMessage(tabs[0].id, {
+    }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
             command: "newconfig",
             config
         });
@@ -44,21 +44,22 @@ function sendConfig() {
 function restoreOptions() {
 
     let config = JSON.parse(localStorage.getItem(key));
-    document.querySelector("#p1c").checked = config.players[0].clickable;
-    document.querySelector("#p1m").checked = config.players[0].mistake;
-    document.querySelector("#p2c").checked = config.players[1].clickable;
-    document.querySelector("#p2m").checked = config.players[1].mistake;
-    document.querySelector("#swap").checked = config.swap;
-
+    if (config) {
+        document.querySelector("#p1c").checked = config.players[0].clickable;
+        document.querySelector("#p1m").checked = config.players[0].mistake;
+        document.querySelector("#p2c").checked = config.players[1].clickable;
+        document.querySelector("#p2m").checked = config.players[1].mistake;
+        document.querySelector("#swap").checked = config.swap;
+    }
     /**
      * Get the active tab,
      * then send config.
      */
-    browser.tabs.query({
+    chrome.tabs.query({
         active: true,
         currentWindow: true
-    }).then(tabs => {
-        browser.tabs.sendMessage(tabs[0].id, {
+    }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {
             command: "newconfig",
             config
         });
