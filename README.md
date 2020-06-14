@@ -2,13 +2,15 @@ Bingosync+
 --------------------
 
 ## How to install on Firefox
-+ Go to [this page](https://addons.mozilla.org/en-US/firefox/addon/bingosyncplus/) and install the extension
++ Go to [this page](https://addons.mozilla.org/en-US/firefox/addon/bingosyncplus/) and install the extension.
 + You are done.
+
+![image](https://i.imgur.com/uoAiGNh.png)
 
 ## How to install on Chrome (Good Luck)
 + Download [this file](https://github.com/cyrillebenoit/BingosyncPlus/releases/download/v1.0/BingosyncPlus_1.0_Chrome.zip)
 + Unzip it
-+ Go to [this page](chrome://extensions)
++ Go to `chrome://extensions`
 + Check Developer Mode in the top right corner 
 
 ![image](https://i.imgur.com/JnC9U7d.png)
