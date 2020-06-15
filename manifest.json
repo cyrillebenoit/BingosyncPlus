@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Provides a couple improvements to Bingosync",
   "icons": {
     "48": "icons/icon-48.png",
@@ -20,9 +20,16 @@
       ]
     }
   ],
-  "browser_action": {
+  "page_action": {
     "default_title": "Bingosync+",
-    "default_popup": "browserAction/settings.html"
+    "default_popup": "browserAction/settings.html",
+    "default_icon": {
+      "38": "icons/icon-38.png",
+      "19": "icons/icon-19.png"
+    },
+    "show_matches": [
+      "*://*.bingosync.com/room/*"
+    ]
   },
   "permissions": [
     "storage",
