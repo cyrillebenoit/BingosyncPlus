@@ -351,11 +351,14 @@ function checkClickableGoals(card, colors) {
         }
     }
 
-    for (let node of addedNodes) {
-        let elem = document.getElementById(node);
-        elem.parentNode.removeChild(elem);
+    for (let i = 0; i < 25; i++) {
+        try {
+            let elem = document.getElementById(`slot${i + 1}_highlight`);
+            elem.parentNode.removeChild(elem);
+        } catch (e) {
+            console.error(e);
+        }
     }
-    addedNodes = [];
 
     // Display Clickable Goals on Card
     for (let i = 0; i < 25; i++) {
@@ -366,7 +369,6 @@ function checkClickableGoals(card, colors) {
             let newContainer = document.createElement("div");
             newContainer.setAttribute("class", "circle-container");
             newContainer.setAttribute("id", `slot${i + 1}_highlight`);
-            addedNodes.push(`slot${i + 1}_highlight`);
 
             for (let className of newClasses) {
                 let newChild = document.createElement("div");
