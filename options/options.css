@@ -1,0 +1,20 @@
+input[type=text] {
+    color: white;
+}
+
+.postfix {
+    color: white;
+    margin-left: -1rem;
+}
+
+h1 {
+    color: white;
+}
+
+body {
+    background-color: #202020;
+}
+
+.my-card-action {
+    background-color: #363636 !important;
+}
