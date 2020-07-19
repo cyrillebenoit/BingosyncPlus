@@ -93,21 +93,21 @@ function sendConfig() {
 function updateTheme(custom) {
     const customTheme = localStorage.getItem(theme_key);
     if (custom && customTheme) {
-        browser.tabs.query({
+        chrome.tabs.query({
             active: true,
             currentWindow: true
-        }).then(tabs => {
-            browser.tabs.sendMessage(tabs[0].id, {
+        }, tabs => {
+            chrome.tabs.sendMessage(tabs[0].id, {
                 command: "newtheme",
                 theme: JSON.parse(customTheme)
             });
         });
     } else {
-        browser.tabs.query({
+        chrome.tabs.query({
             active: true,
             currentWindow: true
-        }).then(tabs => {
-            browser.tabs.sendMessage(tabs[0].id, {
+        }, tabs => {
+            chrome.tabs.sendMessage(tabs[0].id, {
                 command: "newtheme",
                 theme: defaultTheme
             });
@@ -116,7 +116,9 @@ function updateTheme(custom) {
 }
 
 function restoreOptions() {
+
     let config = JSON.parse(localStorage.getItem(key));
+    console.log(config)
     if (config) {
         document.querySelector("#p1c").checked = config.players[0].clickable;
         document.querySelector("#p1m").checked = config.players[0].mistake;
@@ -144,9 +146,9 @@ function restoreOptions() {
 }
 
 function openSettings() {
-    browser.tabs.create({
+    chrome.tabs.create({
         active: true,
-        url: browser.runtime.getURL('/options/page.html')
+        url: chrome.runtime.getURL('/options/page.html')
     })
 }
 

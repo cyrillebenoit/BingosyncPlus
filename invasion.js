@@ -534,7 +534,7 @@ function updateTheme(theme) {
  * Listen for messages from the background script.
  * Updates the config object. And reruns
  */
-browser.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message) => {
     try {
         if (message.command === "newconfig") {
             config = message.config;
