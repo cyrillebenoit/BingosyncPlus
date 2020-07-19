@@ -4,67 +4,96 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="settings.css">
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
     <meta charset="UTF-8">
     <title>Bingosync+ Settings</title>
 </head>
 <body>
-<form id="my-form" action="#">
-    <!-- Checkbox P1 potential + mistakes -->
-    <div class="settings-block">
-        <div class="settings-name">
-            Left Side
-        </div>
-
-        <div class="settings-row">
-            <label>
-                <input id="p1c" class="trigger" type="checkbox"/>
-                <span>Clickables</span>
-            </label>
-            <label>
-                <input id="p1m" class="trigger" type="checkbox"/>
-                <span>Mistakes</span>
-            </label>
-        </div>
+<div class="row" style="max-width: 250px">
+    <div class="col s12">
+        <ul class="tabs">
+            <li class="tab col s3"><a class="active" id="theming_tab_button" href="#theming">Theming</a></li>
+            <li class="tab col s3"><a class="active" id="invasion_tab_button" href="#invasion">Invasion</a></li>
+        </ul>
     </div>
+    <div id="theming" class="col s12">
+        <form>
 
-    <!-- Checkbox P2 potential + mistakes -->
-    <div class="settings-block">
-        <div class="settings-name">
-            Right Side
-        </div>
-
-        <div class="settings-row">
-            <label>
-                <input id="p2c" class="trigger" type="checkbox"/>
-                <span>Clickables</span>
-            </label>
-            <label>
-                <input id="p2m" class="trigger" type="checkbox"/>
-                <span>Mistakes</span>
-            </label>
-        </div>
+            <!-- Toggle Theme -->
+            <div style="display: flex; flex-direction: column; align-items: center;justify-content: center">
+                <div class="settings-name">
+                    Theming
+                </div>
+                <div class="switch settings-row">
+                    <label>
+                        Off
+                        <input id="enableTheming" class="trigger" type="checkbox">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <div style="padding-top: 16px">
+                    <a id="settings" class="waves-effect waves-light btn">open settings</a>
+                </div>
+            </div>
+        </form>
     </div>
+    <div id="invasion" class="col s12" hidden>
+        <form id="my-form" action="#">
+            <!-- Checkbox P1 potential + mistakes -->
+            <div class="settings-block">
+                <div class="settings-name">
+                    Left Side
+                </div>
 
-    <!-- Toggle Switch P1 and P2 -->
-    <div style="display: flex; flex-direction: column; align-items: center;justify-content: center">
-        <div class="settings-name">
-            Swap Sides
-        </div>
+                <div class="settings-row">
+                    <label>
+                        <input id="p1c" class="trigger" type="checkbox"/>
+                        <span>Clickables</span>
+                    </label>
+                    <label>
+                        <input id="p1m" class="trigger" type="checkbox"/>
+                        <span>Mistakes</span>
+                    </label>
+                </div>
+            </div>
 
-        <div class="switch settings-row">
-            <label>
-                No
-                <input id="swap" class="trigger" type="checkbox">
-                <span class="lever"></span>
-                Yes
-            </label>
-        </div>
+            <!-- Checkbox P2 potential + mistakes -->
+            <div class="settings-block">
+                <div class="settings-name">
+                    Right Side
+                </div>
 
+                <div class="settings-row">
+                    <label>
+                        <input id="p2c" class="trigger" type="checkbox"/>
+                        <span>Clickables</span>
+                    </label>
+                    <label>
+                        <input id="p2m" class="trigger" type="checkbox"/>
+                        <span>Mistakes</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Toggle Switch P1 and P2 -->
+            <div style="display: flex; flex-direction: column; align-items: center;justify-content: center">
+                <div class="settings-name">
+                    Swap Sides
+                </div>
+
+                <div class="switch settings-row">
+                    <label>
+                        No
+                        <input id="swap" class="trigger" type="checkbox">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
+
+            </div>
+        </form>
     </div>
-</form>
+</div>
 
 <script src="settings.js"></script>
 </body>

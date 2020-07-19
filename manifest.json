@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "1.0.4",
+  "version": "1.1",
   "description": "Provides a couple improvements to Bingosync",
   "icons": {
     "48": "icons/icon-48.png",
@@ -31,5 +31,9 @@
   "permissions": [
     "storage",
     "browsingData"
-  ]
+  ],
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "options/page.html"
+  }
 }

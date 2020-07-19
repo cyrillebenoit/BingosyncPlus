@@ -8,7 +8,7 @@
  * @author Papaccino <papaccino@outlook.com>
  *
  * Created at     : 2020-06-11 00:00:00
- * Last modified  : 2020-06-12 20:09:00
+ * Last modified  : 2020-07-19 17:09:00
  */
 
 const EMPTY = '';
@@ -355,8 +355,7 @@ function checkClickableGoals(card, colors) {
         try {
             let elem = document.getElementById(`slot${i + 1}_highlight`);
             elem.parentNode.removeChild(elem);
-        } catch (e) {
-            console.error(e);
+        } catch (ignored) {
         }
     }
 
@@ -441,7 +440,7 @@ function checkBoard() {
     // From Logical State define "Starting Lanes"
     if (startingLanes === undefined || TEMP_STARTING_LANES.includes(startingLanes[0].lane)) {
         const lane = getStartingLane(bingoCard, colors);
-        console.log(lane);
+        // console.log(lane);
         if (lane) {
             let oppositeColor = colors[0] === lane.color ? colors[1] : colors[0];
             let oppositeLane = lane.temporary ?
@@ -501,7 +500,6 @@ function checkBoard() {
 let chat_element = document.getElementById("bingo-chat");
 
 let startingLanes;
-let addedNodes = [];
 let bingoCard = newCard();
 
 
@@ -512,14 +510,39 @@ observer.observe(chat_element, {
     subtree: true
 })
 
+function updateTheme(theme) {
+    try {
+        let elem = document.getElementById(`custom_theme`);
+        elem.parentNode.removeChild(elem);
+    } catch (ignored) {
+    }
+
+    let css = '';
+    for (const color in theme) {
+        css += `.${color}square {background-image: linear-gradient(${theme[color]["top"]} 60%, ${theme[color]["bottom"]}) !important;} `;
+        css += `.${color} {border-color: ${theme[color]["top"]} !important;} `;
+        css += `.${color}player {color: ${theme[color]["top"]} !important;} `;
+    }
+    const sheet = document.createElement('style');
+    sheet.setAttribute("id", "custom_theme");
+    sheet.innerHTML = css;
+    document.body.appendChild(sheet);
+}
+
 /**
  * Listen for messages from the background script.
  * Updates the config object. And reruns
  */
 browser.runtime.onMessage.addListener((message) => {
-    if (message.command === "newconfig") {
-        config = message.config;
-        checkBoard();
+    try {
+        if (message.command === "newconfig") {
+            config = message.config;
+            checkBoard();
+        } else if (message.command === "newtheme") {
+            updateTheme(message.theme)
+        }
+    } catch (e) {
+        console.error(e)
     }
 });
 
