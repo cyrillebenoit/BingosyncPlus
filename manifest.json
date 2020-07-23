@@ -29,9 +29,7 @@
     }
   ],
   "permissions": [
-    "declarativeContent",
-    "activeTab",
-    "storage"
+    "declarativeContent"
   ],
   "page_action": {
     "default_icon": "icons/48.png",
