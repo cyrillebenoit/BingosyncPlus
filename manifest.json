@@ -4,16 +4,8 @@
   "version": "1.1",
   "description": "Provides a couple improvements to Bingosync",
   "icons": {
-    "16": "icons/16.png",
-    "48": "icons/48.png",
-    "96": "icons/icon.png",
-    "128": "icons/128.png"
-  },
-  "background": {
-    "scripts": [
-      "background.js"
-    ],
-    "persistent": false
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
   },
   "content_scripts": [
     {
@@ -28,17 +20,19 @@
       ]
     }
   ],
-  "permissions": [
-    "declarativeContent"
-  ],
   "page_action": {
-    "default_icon": "icons/48.png",
     "default_title": "Bingosync+",
-    "default_popup": "pageAction/settings.html"
+    "default_popup": "pageAction/settings.html",
+    "default_icon": "icons/icon-48.png",
+    "show_matches": [
+      "*://*.bingosync.com/room/*"
+    ]
   },
+  "permissions": [
+    "storage"
+  ],
   "options_ui": {
     "open_in_tab": true,
     "page": "options/page.html"
-  },
-  "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'"
+  }
 }
