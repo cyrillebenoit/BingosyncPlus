@@ -92,18 +92,17 @@ function updateCSS(color) {
     card.setAttribute("style", `background-image: linear-gradient(${temporary[color]["top"]} 60%, ${temporary[color]["bottom"]});`);
 }
 
-function updateColors(color, newString) {
+function updateColors(color, newColor) {
     document.getElementById(`${color}_restore`).style = "display:inline";
-    const position = "top";
-    if (!isColorCode(newString)) {
+    if (!isColorCode(newColor)) {
         console.log("not a color");
         return;
     }
-    if (newString[0] !== '#') {
-        newString = '#' + newString;
+    if (newColor[0] !== '#') {
+        newColor = '#' + newColor;
     }
-    let darker = darken(-0.6, newString);
-    temporary[color][position] = newString;
+    let darker = darken(-0.33, newColor);
+    temporary[color]["top"] = newColor;
     temporary[color]["bottom"] = darker;
     updateCSS(color);
 }
