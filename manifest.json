@@ -16,7 +16,7 @@
         "invasion.css"
       ],
       "js": [
-        "invasion.js"
+        "invasion.js", "dom-to-img.min.js"
       ]
     }
   ],

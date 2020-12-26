@@ -498,7 +498,23 @@ function checkBoard() {
     checkClickableGoals(bingoCard, getPlayerColors());
 }
 
+function dumpBoardToClipboard() {
+    const tableToDump = document.getElementById('bingo');
+    domtoimage.toBlob(tableToDump).then(function (theBlob) {
+        navigator.clipboard.write([
+            new ClipboardItem({
+                [theBlob.type]: theBlob
+            })
+        ]);
+    });
+}
+
 let chat_element = document.getElementById("bingo-chat");
+
+let screenshotButton = document.createElement('button');
+screenshotButton.innerText = "screenshot";
+screenshotButton.onclick = dumpBoardToClipboard;
+chat_element.appendChild(screenshotButton);
 
 let startingLanes;
 let addedNodes = [];
