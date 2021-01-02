@@ -1,4 +1,6 @@
 const key = "bsp_theme";
+const keyA = "bsp_urlA";
+const keyB = "bsp_urlB";
 
 const colors = {
     orange: {
@@ -115,6 +117,10 @@ function saveColors(color) {
     inUse[color] = JSON.parse(JSON.stringify(temporary[color]));
     document.getElementById(`${color}_restore`).style = 'display:none';
 
+    browser.runtime.sendMessage({
+        type: "theme",
+        theme: inUse
+    });
     localStorage.setItem(key, JSON.stringify(inUse));
 }
 
@@ -156,6 +162,10 @@ function loadFile(event) {
                 restoreColors(colorKey)
             }
         }
+        browser.runtime.sendMessage({
+            type: "theme",
+            theme: inUse
+        });
         localStorage.setItem(key, JSON.stringify(inUse));
     }
 
@@ -172,9 +182,53 @@ function toggleSaveLoad() {
     isSaveActive = !isSaveActive;
 }
 
+async function loadURL(url) {
+    return fetch(url)
+        .then(response => response.text())
+        .then(body => {
+            // eval
+            body = body.substring(body.indexOf('\n')).concat("(bingoList)");
+            return body;
+        });
+}
+
+function testURL(list) {
+    // get url
+    const url = list === 'A' ? document.getElementById("url_a").value : document.getElementById("url_b").value;
+    localStorage.setItem(list === 'A' ? keyA : keyB, url);
+    // get data at that url and run it
+    loadURL(url).then(lists => {
+        // display success message
+        const elementById = list === 'A' ? document.getElementById("listA-confirm") : document.getElementById("listB-confirm");
+        elementById.innerText = "Lists were successfully loaded";
+        elementById.style.display = 'block';
+        // set timeout to remove div
+        setTimeout(() => elementById.style.display = 'none', 2500);
+
+        browser.runtime.sendMessage({
+            type: `lists${list}`,
+            lists: lists
+        });
+    }).catch(error => {
+        // display error
+        const elementById = list === 'A' ? document.getElementById("listA-error") : document.getElementById("listB-error");
+        elementById.innerText = error;
+        elementById.style.display = 'block';
+        // set timeout to remove div
+        setTimeout(() => elementById.style.display = 'none', 2500);
+    });
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem(key)) {
         Object.assign(inUse, JSON.parse(localStorage.getItem(key)));
+    }
+    if (localStorage.getItem(keyA)) {
+        document.getElementById('url_a').value = localStorage.getItem(keyA);
+    }
+    if (localStorage.getItem(keyB)) {
+        document.getElementById('url_b').value = localStorage.getItem(keyB);
     }
 
     for (let color of colorNames) {
@@ -188,14 +242,16 @@ document.addEventListener("DOMContentLoaded", () => {
         let reset = document.getElementById(`${color}_reset`);
 
         let restore = document.getElementById(`${color}_restore`);
-        restore.addEventListener("click", e => restoreColors(color));
+        restore.addEventListener("click", () => restoreColors(color));
         restore.style = "display:none";
 
-        save.addEventListener("click", e => saveColors(color));
-        reset.addEventListener("click", e => resetColors(color));
+        save.addEventListener("click", () => saveColors(color));
+        reset.addEventListener("click", () => resetColors(color));
     }
 
     document.getElementById("save_load_button").addEventListener("click", toggleSaveLoad);
+    document.getElementById(`load_listA`).addEventListener("click", () => testURL('A'));
+    document.getElementById(`load_listB`).addEventListener("click", () => testURL('B'));
 
     document.getElementById("load").addEventListener("change", loadFile);
     document.getElementById("save_load").style = "display:none";

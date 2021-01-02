@@ -1,0 +1,40 @@
+.mini {
+    margin: 0 auto;
+    max-width: 250px;
+}
+
+.important {
+    width: 100%;
+    margin-top: 10px;
+    padding: 4px 10px;
+    background-color: #58a508;
+    color: white;
+    font-size: 12pt;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.my-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-name {
+    font-size: 12pt;
+}
+
+.settings-block {
+    border: 1px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+    margin: 2px 2px;
+    padding: 1px 2px;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 4px;
+}
