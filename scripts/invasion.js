@@ -515,17 +515,21 @@ new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), 
 
 console.log("Invasion module loaded.")
 
-function handleConfig(_config) {
-    if (_config.invasion) {
-        indicatorsRules = _config.invasion;
+function handleConfig(config) {
+    if(!config) {
+        return;
+    }
+
+    if (config.invasion) {
+        indicatorsRules = config.invasion;
     }
     checkBoard();
 }
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         handleConfig(message.config);
     }
 });
 
-browser.runtime.sendMessage({type: "request", content: 'config'}).then(handleConfig)
+chrome.runtime.sendMessage({type: "request", content: 'config'}, handleConfig)

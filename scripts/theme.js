@@ -69,12 +69,13 @@ function updateTheme(theme) {
 }
 
 console.log("Theme module loaded.")
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
+    console.log(message)
     if (message.type === 'config') {
-        browser.runtime.sendMessage({type: "request", content: 'theme'}).then(updateTheme)
+        chrome.runtime.sendMessage({type: "request", content: 'theme'}, updateTheme)
     } else if (message.type === 'theme') {
         updateTheme(message.theme);
     }
 });
 
-browser.runtime.sendMessage({type: "request", content: 'theme'}).then(updateTheme)
+chrome.runtime.sendMessage({type: "request", content: 'theme'}, updateTheme)

@@ -4,8 +4,8 @@
   "version": "2.0",
   "description": "Provides a few improvements to Bingosync.com",
   "icons": {
-    "48": "icons/icon-48.png",
-    "96": "icons/icon-96.png"
+    "48": "icons/48.png",
+    "128": "icons/128.png"
   },
   "background": {
     "scripts": [
@@ -33,15 +33,10 @@
       "run_at": "document_end"
     }
   ],
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
   "page_action": {
     "default_title": "Bingosync+",
     "default_popup": "pageAction/action.html",
-    "default_icon": "icons/icon-48.png",
+    "default_icon": "icons/48.png",
     "show_matches": [
       "*://*.bingosync.com/room/*"
     ]
@@ -50,18 +45,12 @@
     "activeTab",
     "storage",
     "tabs",
-    "https://raw.githubusercontent.com/*"
+    "https://raw.githubusercontent.com/*",
+    "declarativeContent"
   ],
   "options_ui": {
     "open_in_tab": true,
     "page": "options/page.html"
-  }
-    "tabs",
-    "declarativeContent"
-  ],
-  "page_action": {
-    "default_title": "Bingosync+",
-    "default_popup": "browserAction/settings.html"
   },
   "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com; object-src 'self'"
 }

@@ -32,7 +32,7 @@ function sendConfig() {
 
     console.log("saving " + JSON.stringify(config));
     localStorage.setItem(`${key}`, JSON.stringify(config));
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         type: 'config',
         config
     });
@@ -67,16 +67,16 @@ function restoreOptions() {
     document.querySelector("#enableTranslation").checked = translation;
     document.querySelector("#enableClue").checked = clue;
 
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         type: 'config',
         config
     });
 }
 
 function openSettings() {
-    browser.tabs.create({
+    chrome.tabs.create({
         active: true,
-        url: browser.runtime.getURL('/options/page.html')
+        url: chrome.runtime.getURL('/options/page.html')
     })
 }
 

@@ -16,7 +16,11 @@ function labelCard() {
 }
 
 function handleLists(body, target) {
-    let evaluation = eval(body).slice(1);
+    let evaluation = eval(body)
+    if (!evaluation) {
+        return;
+    }
+    evaluation = evaluation.slice(1);
     // check format of lists
     if (typeof evaluation !== typeof []) {
         // window.alert(`Invalid list ${target.toUpperCase()}: ${evaluation.toString()}`);
@@ -42,7 +46,7 @@ function handleLists(body, target) {
     labelCard();
 }
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'listsA') {
         handleLists(message.lists, 'a')
     } else if (message.type === 'listsB') {
@@ -50,8 +54,8 @@ browser.runtime.onMessage.addListener(message => {
     }
 });
 
-browser.runtime.sendMessage({type: 'request', content: 'listsA'}).then(lists => handleLists(lists, 'a'));
-browser.runtime.sendMessage({type: 'request', content: 'listsB'}).then(lists => handleLists(lists, 'b'));
+chrome.runtime.sendMessage({type: 'request', content: 'listsA'}, lists => handleLists(lists, 'a'));
+chrome.runtime.sendMessage({type: 'request', content: 'listsB'}, lists => handleLists(lists, 'b'));
 
 
 new MutationObserver(labelCard).observe(document.getElementById("bingo-chat"), {

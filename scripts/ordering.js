@@ -98,7 +98,7 @@ new MutationObserver(reorderCard).observe(document.getElementById("bingo-chat"),
     subtree: true
 })
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         orderingMode = message.config.ordering;
         reorderCard();
@@ -106,7 +106,10 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 
-browser.runtime.sendMessage({type: "request", content: 'config'}).then(config => {
+chrome.runtime.sendMessage({type: "request", content: 'config'}, config => {
+    if (!config) {
+        return;
+    }
     orderingMode = config.ordering;
     reorderCard()
 });

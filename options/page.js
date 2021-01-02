@@ -117,7 +117,7 @@ function saveColors(color) {
     inUse[color] = JSON.parse(JSON.stringify(temporary[color]));
     document.getElementById(`${color}_restore`).style = 'display:none';
 
-    browser.runtime.sendMessage({
+    chrome.runtime.sendMessage({
         type: "theme",
         theme: inUse
     });
@@ -162,7 +162,7 @@ function loadFile(event) {
                 restoreColors(colorKey)
             }
         }
-        browser.runtime.sendMessage({
+        chrome.runtime.sendMessage({
             type: "theme",
             theme: inUse
         });
@@ -205,7 +205,7 @@ function testURL(list) {
         // set timeout to remove div
         setTimeout(() => elementById.style.display = 'none', 2500);
 
-        browser.runtime.sendMessage({
+        chrome.runtime.sendMessage({
             type: `lists${list}`,
             lists: lists
         });
