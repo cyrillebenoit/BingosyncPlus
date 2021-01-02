@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="action.css">
+
+    <meta charset="UTF-8">
+    <title>Bingosync+ Settings</title>
+</head>
+<body>
+<div class="row" style="width: 500px;">
+    <div class="col s12">
+        <ul class="tabs">
+            <li class="tab col s3"><a class="active" id="theming_tab_button" href="#theming">Theming</a></li>
+            <li class="tab col s3"><a class="inactive" id="ordering_tab_button" href="#ordering">Move Goals</a></li>
+            <li class="tab col s3"><a class="inactive" id="translation_tab_button" href="#translation">Translation</a>
+            </li>
+            <li class="tab col s3"><a class="inactive" id="invasion_tab_button" href="#invasion">Invasion</a></li>
+            <li class="tab col s3"><a class="inactive" id="clue_tab_button" href="#clue">Clue</a></li>
+        </ul>
+    </div>
+    <div id="theming" class="col s12">
+        <!-- Toggle Theme -->
+        <div class="my-column">
+            <div class="switch settings-row">
+                <label>
+                    Off
+                    <input id="enableTheming" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+            <div style="padding-top: 16px">
+                <a id="settings1" class="waves-effect waves-light btn">open settings</a>
+            </div>
+        </div>
+        <div class="important">
+            Setup the theme on the settings page first!
+        </div>
+    </div>
+    <div id="ordering" class="col s12" hidden>
+        <form class="my-column mini">
+            <label style="width: 60%">
+                <input class="with-gap trigger" id="orderingMode0" name="group3" value="0" type="radio" checked/>
+                <span>Normal</span>
+            </label>
+            <label style="width: 60%">
+                <input class="with-gap trigger" id="orderingMode2" name="group3" value="2" type="radio"/>
+                <span>Transposed</span>
+            </label>
+            <label style="width: 60%">
+                <input class="with-gap trigger" id="orderingMode1" name="group3" value="1" type="radio"/>
+                <span>Ordered</span>
+            </label>
+            <div style="padding-top: 16px">
+                <a id="settings2" class="waves-effect waves-light btn">open settings</a>
+            </div>
+        </form>
+        <div class="important">
+            Setup the main list for Ordered to work!
+        </div>
+    </div>
+    <div id="translation" class="col s12" hidden>
+        <form class="my-column mini">
+            <div class="switch settings-row">
+                <label>
+                    Off
+                    <input id="enableTranslation" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+            <div style="padding-top: 16px">
+                <a id="settings3" class="waves-effect waves-light btn">open settings</a>
+            </div>
+        </form>
+        <div class="important">
+            Setup both lists on the settings page for this to work!
+        </div>
+    </div>
+    <div id="invasion" class="col s12" hidden>
+        <div class="mini">
+            <!-- Checkbox P1 potential + mistakes -->
+            <div class="settings-block">
+                <div class="settings-name">
+                    Left Side
+                </div>
+
+                <div class="settings-row">
+                    <label>
+                        <input id="p1c" class="trigger" type="checkbox"/>
+                        <span>Clickables</span>
+                    </label>
+                    <label>
+                        <input id="p1m" class="trigger" type="checkbox"/>
+                        <span>Mistakes</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Checkbox P2 potential + mistakes -->
+            <div class="settings-block">
+                <div class="settings-name">
+                    Right Side
+                </div>
+
+                <div class="settings-row">
+                    <label>
+                        <input id="p2c" class="trigger" type="checkbox"/>
+                        <span>Clickables</span>
+                    </label>
+                    <label>
+                        <input id="p2m" class="trigger" type="checkbox"/>
+                        <span>Mistakes</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Toggle Switch P1 and P2 -->
+            <div class="my-column">
+                <div class="settings-name">
+                    Swap Sides
+                </div>
+
+                <div class="switch settings-row">
+                    <label>
+                        No
+                        <input id="swap" class="trigger" type="checkbox">
+                        <span class="lever"></span>
+                        Yes
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="clue" class="col s12" hidden>
+        <form class="my-column mini">
+            <div class="switch settings-row">
+                <label>
+                    Off
+                    <input id="enableClue" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+
+            <div style="padding-top: 16px">
+                <a id="settings4" class="waves-effect waves-light btn">open settings</a>
+            </div>
+        </form>
+        <div class="important">
+            Setup the main list on the settings page for this to work!
+        </div>
+    </div>
+</div>
+
+<script src="action.js"></script>
+</body>
+</html>

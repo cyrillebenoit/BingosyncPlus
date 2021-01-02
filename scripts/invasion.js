@@ -15,7 +15,7 @@ const EMPTY = '';
 const TEMP_STARTING_LANES = ["TOP LEFT", "TOP RIGHT", "BOTTOM RIGHT", "BOTTOM LEFT"];
 const STARTING_LANES = ["TOP", "RIGHT", "BOTTOM", "LEFT"];
 
-let config = {
+let indicatorsRules = {
     players: [{
         clickable: false,
         mistake: false
@@ -385,8 +385,8 @@ function checkClickableGoals(card, colors) {
                 }
 
                 newChild.setAttribute("class", `${mistake ?
-                    (config.players[right ? 1 : 0].mistake ? "mistake" : "") :
-                    (config.players[right ? 1 : 0].clickable ? "circle" : "")} ${className} ${corner}`);
+                    (indicatorsRules.players[right ? 1 : 0].mistake ? "mistake" : "") :
+                    (indicatorsRules.players[right ? 1 : 0].clickable ? "circle" : "")} ${className} ${corner}`);
                 // Create new Element with class
                 newContainer.appendChild(newChild);
             }
@@ -413,15 +413,21 @@ function isCardEmpty(card) {
 function getPlayerColors() {
     const colors = [];
     for (let i = 0; i < 2; i++) {
-        const player_element = document.getElementById("players-panel").children.item(config.swap ? 1 - i : i);
-        let colorClass = player_element.children.item(0).classList[1];
-        colors.push(colorClass.substring(0, colorClass.indexOf("square")));
+        let color = i === 1 && colors[0] !== 'blue' ? 'blue' : 'red';
+        try {
+            const player_element = document.getElementById("players-panel").children.item(indicatorsRules.swap ? 1 - i : i);
+            let colorClass = player_element.children.item(0).classList[1];
+            color = colorClass.substring(0, colorClass.indexOf("square"));
+        } catch (e) {
+        } finally {
+            colors.push(color);
+        }
     }
     return colors;
 }
 
 function checkBoard() {
-    for (let i = 1; i < 26; i++) {
+    for (let i = 1; i <= 25; i++) {
         const goalColor = document.getElementById("slot" + i).getAttribute("title");
 
         let row = Math.floor((i - 1) / 5);
@@ -497,52 +503,29 @@ function checkBoard() {
     checkClickableGoals(bingoCard, getPlayerColors());
 }
 
-let chat_element = document.getElementById("bingo-chat");
-
 let startingLanes;
 let bingoCard = newCard();
 
-
-const observer = new MutationObserver(checkBoard)
-observer.observe(chat_element, {
+new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), {
     attributes: true,
     childList: true,
     subtree: true
 })
 
-function updateTheme(theme) {
-    try {
-        let elem = document.getElementById(`custom_theme`);
-        elem.parentNode.removeChild(elem);
-    } catch (ignored) {
-    }
 
-    let css = '';
-    for (const color in theme) {
-        css += `.${color}square {background-image: linear-gradient(${theme[color]["top"]} 60%, ${theme[color]["bottom"]}) !important;} `;
-        css += `.${color} {border-color: ${theme[color]["top"]} !important;} `;
-        css += `.${color}player {color: ${theme[color]["top"]} !important;} `;
+console.log("Invasion module loaded.")
+
+function handleConfig(_config) {
+    if (_config.invasion) {
+        indicatorsRules = _config.invasion;
     }
-    const sheet = document.createElement('style');
-    sheet.setAttribute("id", "custom_theme");
-    sheet.innerHTML = css;
-    document.body.appendChild(sheet);
+    checkBoard();
 }
 
-/**
- * Listen for messages from the background script.
- * Updates the config object. And reruns
- */
-browser.runtime.onMessage.addListener((message) => {
-    try {
-        if (message.command === "newconfig") {
-            config = message.config;
-            checkBoard();
-        } else if (message.command === "newtheme") {
-            updateTheme(message.theme)
-        }
-    } catch (e) {
-        console.error(e)
+browser.runtime.onMessage.addListener(message => {
+    if (message.type === 'config') {
+        handleConfig(message.config);
     }
 });
 
+browser.runtime.sendMessage({type: "request", content: 'config'}).then(handleConfig)

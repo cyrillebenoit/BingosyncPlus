@@ -1,0 +1,46 @@
+input[type=text] {
+    color: white;
+}
+
+.postfix {
+    color: white;
+    margin-left: -1rem;
+}
+
+h1 {
+    color: white;
+}
+
+body {
+    background-color: #202020;
+}
+
+.my-card-action {
+    background-color: #363636 !important;
+}
+
+.my-row {
+    padding: 0 16px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    /*justify-content: space-between;*/
+}
+
+.my-error {
+    padding: 12px 18px;
+    width: inherit;
+    font-size: 16pt;
+    background-color: #880000;
+    color: #ffffff;
+    font-weight: bolder;
+}
+
+.my-confirm {
+    padding: 12px 18px;
+    width: inherit;
+    font-size: 16pt;
+    background-color: #388800;
+    color: #ffffff;
+    font-weight: bolder;
+}
