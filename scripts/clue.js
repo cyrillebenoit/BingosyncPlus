@@ -158,6 +158,10 @@ new MutationObserver(updateSheets).observe(document.getElementById("bingo-chat")
 console.log("Clue module loaded.")
 
 function applyConfig(config) {
+    if(!config) {
+        return;
+    }
+
     if (config.clue !== enableClue) {
         const message = `${config.clue ? "I just enabled Clue!" : "I just disabled Clue!"} (nonce: ${Date.now()})`;
         if (document.getElementsByClassName("chat-input").length > 0) {

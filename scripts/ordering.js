@@ -106,7 +106,10 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 
-browser.runtime.sendMessage({type: "request", content: 'config'}).then(config => {
+chrome.runtime.sendMessage({type: "request", content: 'config'}, config => {
+    if (!config) {
+        return;
+    }
     orderingMode = config.ordering;
     reorderCard()
 });

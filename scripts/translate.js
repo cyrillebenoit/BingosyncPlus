@@ -52,16 +52,18 @@ function translateCard() {
                 return;
             }
             let goalText = slot.innerText;
-
-            // Translate goal text
-            let translatedText = translateGoal(goalText, listsA, listsB);
-            if (translatedText !== undefined) {
-                let translated = document.createElement('div');
-                translated.className = 'vertical-center text-container';
-                translated.style = 'font-size: 100%';
-                translated.id = `translated_goal_${i}`;
-                translated.innerText = translatedText;
-                slot.parentElement.appendChild(translated);
+            try {
+                // Translate goal text
+                let translatedText = translateGoal(goalText, listsA, listsB);
+                if (translatedText !== undefined) {
+                    let translated = document.createElement('div');
+                    translated.className = 'vertical-center text-container';
+                    translated.style = 'font-size: 100%';
+                    translated.id = `translated_goal_${i}`;
+                    translated.innerText = translatedText;
+                    slot.parentElement.appendChild(translated);
+                }
+            } catch (e) {
             }
         }
 
@@ -76,8 +78,10 @@ function translateCard() {
             translateSheet(sheet, listsA, listsB);
 
         } else {
-            document.getElementById(`translated_goal_${i}`).style.opacity = '0';
-            document.getElementById(`original_goal_${i}`).style.opacity = '1';
+            if (document.getElementById(`translated_goal_${i}`))
+                document.getElementById(`translated_goal_${i}`).style.opacity = '0';
+            if (document.getElementById(`original_goal_${i}`))
+                document.getElementById(`original_goal_${i}`).style.opacity = '1';
 
             // Clue
             translateSheet(sheet, listsB, listsA);
@@ -86,9 +90,12 @@ function translateCard() {
 
 // Chat
     for (const goalName of document.getElementsByClassName('goal-name')) {
-        const translatedChat = translateGoal(goalName.innerText, translate ? listsA : listsB, translate ? listsB : listsA);
-        if (translatedChat) {
-            goalName.innerText = translatedChat
+        try {
+            const translatedChat = translateGoal(goalName.innerText, translate ? listsA : listsB, translate ? listsB : listsA);
+            if (translatedChat) {
+                goalName.innerText = translatedChat
+            }
+        } catch (e) {
         }
     }
 }
@@ -100,6 +107,9 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 function handleTranslationConfig(config) {
+    if (!config) {
+        return;
+    }
     if (translate !== config.translation) {
         translate = config.translation;
         if (listsA === []) {

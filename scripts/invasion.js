@@ -515,9 +515,13 @@ new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), 
 
 console.log("Invasion module loaded.")
 
-function handleConfig(_config) {
-    if (_config.invasion) {
-        indicatorsRules = _config.invasion;
+function handleConfig(config) {
+    if(!config) {
+        return;
+    }
+
+    if (config.invasion) {
+        indicatorsRules = config.invasion;
     }
     checkBoard();
 }

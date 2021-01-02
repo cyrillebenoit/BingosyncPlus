@@ -16,7 +16,11 @@ function labelCard() {
 }
 
 function handleLists(body, target) {
-    let evaluation = eval(body).slice(1);
+    let evaluation = eval(body)
+    if (!evaluation) {
+        return;
+    }
+    evaluation = evaluation.slice(1);
     // check format of lists
     if (typeof evaluation !== typeof []) {
         // window.alert(`Invalid list ${target.toUpperCase()}: ${evaluation.toString()}`);

@@ -46,7 +46,9 @@ browser.runtime.onMessage.addListener((message, sender, respond) => {
                     respond(JSON.parse(localStorage.getItem("bsp_config")));
                     break;
                 case "theme":
-                    respond(config.theming ? JSON.parse(localStorage.getItem("bsp_theme")) : undefined);
+                    if(config){
+                        respond(config.theming ? JSON.parse(localStorage.getItem("bsp_theme")) : undefined);
+                    }
                     break;
                 case "listsA":
                     respond(localStorage.getItem("bsp_listsA"));
