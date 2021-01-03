@@ -24,7 +24,7 @@
         "scripts/translate.js",
         "scripts/theme.js",
         "scripts/boardFunctions.js",
-        "libraries/dom-to-img.min.js"
+        "libraries/dom-to-img.js"
       ],
       "run_at": "document_end"
     }
