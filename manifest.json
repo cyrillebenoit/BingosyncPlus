@@ -31,5 +31,8 @@
   "permissions": [
     "storage",
     "browsingData"
+  ],
+  "web_accessible_resources": [
+    "images/camera.svg"
   ]
 }

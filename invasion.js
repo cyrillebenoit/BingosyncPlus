@@ -506,15 +506,46 @@ function dumpBoardToClipboard() {
                 [theBlob.type]: theBlob
             })
         ]);
+        navigator.clipboard.writeText("mordygumbus");
     });
 }
 
 let chat_element = document.getElementById("bingo-chat");
 
-let screenshotButton = document.createElement('button');
-screenshotButton.innerText = "screenshot";
-screenshotButton.onclick = dumpBoardToClipboard;
-chat_element.appendChild(screenshotButton);
+// This is very cursed.
+// Since there's no ID and no classnames sometimes, we have to navigate this way.
+let settingsContainer = document.body.firstElementChild.lastElementChild.lastElementChild.firstElementChild.lastElementChild.firstElementChild;
+let snippet = document.createElement('template');
+snippet.innerHTML = `<div class="flex-col-footer">
+<div id="bingosync-plus-settings" class="panel panel-default fill-parent">
+<div class="panel-heading">
+<span>
+Bingosync Plus Functions
+</span>
+</div>
+<div class="panel-body" style="overflow: hidden; display: block;">
+<div id="bingosync-plus-settings-box">
+</div>
+</div>
+</div>
+
+</div>`
+settingsContainer.lastElementChild.className = settingsContainer.lastElementChild.className + ' m-b-l';
+settingsContainer.appendChild(snippet.content.firstChild);
+
+let buttonBox = document.getElementById('bingosync-plus-settings-box');
+
+if (buttonBox) {
+    let screenshotButton = document.createElement('button');
+    screenshotButton.className = "screenshot_button";
+    screenshotButton.title = "Copy an image of the board to your clipboard.";
+    let buttonIcon = document.createElement('img');
+    buttonIcon.src = chrome.runtime.getURL('images/camera.svg');
+    buttonIcon.className = "screenshot_button_icon";
+    screenshotButton.onclick = dumpBoardToClipboard;
+    screenshotButton.appendChild(buttonIcon);
+    buttonBox.appendChild(screenshotButton);
+}
 
 let startingLanes;
 let addedNodes = [];
@@ -532,7 +563,7 @@ observer.observe(chat_element, {
  * Listen for messages from the background script.
  * Updates the config object. And reruns
  */
-browser.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message) => {
     if (message.command === "newconfig") {
         config = message.config;
         checkBoard();
