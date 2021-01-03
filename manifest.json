@@ -23,6 +23,7 @@
         "scripts/ordering.js",
         "scripts/translate.js",
         "scripts/theme.js",
+        "scripts/boardFunctions.js",
         "libraries/dom-to-img.min.js"
       ],
       "run_at": "document_end"
