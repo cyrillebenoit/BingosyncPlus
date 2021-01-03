@@ -8,14 +8,14 @@
  * @author Papaccino <papaccino@outlook.com>
  *
  * Created at     : 2020-06-11 00:00:00
- * Last modified  : 2020-06-12 20:09:00
+ * Last modified  : 2020-07-19 17:09:00
  */
 
 const EMPTY = '';
 const TEMP_STARTING_LANES = ["TOP LEFT", "TOP RIGHT", "BOTTOM RIGHT", "BOTTOM LEFT"];
 const STARTING_LANES = ["TOP", "RIGHT", "BOTTOM", "LEFT"];
 
-let config = {
+let indicatorsRules = {
     players: [{
         clickable: false,
         mistake: false
@@ -355,8 +355,7 @@ function checkClickableGoals(card, colors) {
         try {
             let elem = document.getElementById(`slot${i + 1}_highlight`);
             elem.parentNode.removeChild(elem);
-        } catch (e) {
-            console.error(e);
+        } catch (ignored) {
         }
     }
 
@@ -386,8 +385,8 @@ function checkClickableGoals(card, colors) {
                 }
 
                 newChild.setAttribute("class", `${mistake ?
-                    (config.players[right ? 1 : 0].mistake ? "mistake" : "") :
-                    (config.players[right ? 1 : 0].clickable ? "circle" : "")} ${className} ${corner}`);
+                    (indicatorsRules.players[right ? 1 : 0].mistake ? "mistake" : "") :
+                    (indicatorsRules.players[right ? 1 : 0].clickable ? "circle" : "")} ${className} ${corner}`);
                 // Create new Element with class
                 newContainer.appendChild(newChild);
             }
@@ -414,15 +413,21 @@ function isCardEmpty(card) {
 function getPlayerColors() {
     const colors = [];
     for (let i = 0; i < 2; i++) {
-        const player_element = document.getElementById("players-panel").children.item(config.swap ? 1 - i : i);
-        let colorClass = player_element.children.item(0).classList[1];
-        colors.push(colorClass.substring(0, colorClass.indexOf("square")));
+        let color = i === 1 && colors[0] !== 'blue' ? 'blue' : 'red';
+        try {
+            const player_element = document.getElementById("players-panel").children.item(indicatorsRules.swap ? 1 - i : i);
+            let colorClass = player_element.children.item(0).classList[1];
+            color = colorClass.substring(0, colorClass.indexOf("square"));
+        } catch (e) {
+        } finally {
+            colors.push(color);
+        }
     }
     return colors;
 }
 
 function checkBoard() {
-    for (let i = 1; i < 26; i++) {
+    for (let i = 1; i <= 25; i++) {
         const goalColor = document.getElementById("slot" + i).getAttribute("title");
 
         let row = Math.floor((i - 1) / 5);
@@ -441,7 +446,7 @@ function checkBoard() {
     // From Logical State define "Starting Lanes"
     if (startingLanes === undefined || TEMP_STARTING_LANES.includes(startingLanes[0].lane)) {
         const lane = getStartingLane(bingoCard, colors);
-        console.log(lane);
+        // console.log(lane);
         if (lane) {
             let oppositeColor = colors[0] === lane.color ? colors[1] : colors[0];
             let oppositeLane = lane.temporary ?
@@ -498,75 +503,33 @@ function checkBoard() {
     checkClickableGoals(bingoCard, getPlayerColors());
 }
 
-function dumpBoardToClipboard() {
-    const tableToDump = document.getElementById('bingo');
-    domtoimage.toBlob(tableToDump).then(function (theBlob) {
-        navigator.clipboard.write([
-            new ClipboardItem({
-                [theBlob.type]: theBlob
-            })
-        ]);
-        navigator.clipboard.writeText("mordygumbus");
-    });
-}
-
-let chat_element = document.getElementById("bingo-chat");
-
-// This is very cursed.
-// Since there's no ID and no classnames sometimes, we have to navigate this way.
-let settingsContainer = document.body.firstElementChild.lastElementChild.lastElementChild.firstElementChild.lastElementChild.firstElementChild;
-let snippet = document.createElement('template');
-snippet.innerHTML = `<div class="flex-col-footer">
-<div id="bingosync-plus-settings" class="panel panel-default fill-parent">
-<div class="panel-heading">
-<span>
-Bingosync Plus Functions
-</span>
-</div>
-<div class="panel-body" style="overflow: hidden; display: block;">
-<div id="bingosync-plus-settings-box">
-</div>
-</div>
-</div>
-
-</div>`
-settingsContainer.lastElementChild.className = settingsContainer.lastElementChild.className + ' m-b-l';
-settingsContainer.appendChild(snippet.content.firstChild);
-
-let buttonBox = document.getElementById('bingosync-plus-settings-box');
-
-if (buttonBox) {
-    let screenshotButton = document.createElement('button');
-    screenshotButton.className = "screenshot_button";
-    screenshotButton.title = "Copy an image of the board to your clipboard.";
-    let buttonIcon = document.createElement('img');
-    buttonIcon.src = chrome.runtime.getURL('images/camera.svg');
-    buttonIcon.className = "screenshot_button_icon";
-    screenshotButton.onclick = dumpBoardToClipboard;
-    screenshotButton.appendChild(buttonIcon);
-    buttonBox.appendChild(screenshotButton);
-}
-
 let startingLanes;
-let addedNodes = [];
 let bingoCard = newCard();
 
-
-const observer = new MutationObserver(checkBoard)
-observer.observe(chat_element, {
+new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), {
     attributes: true,
     childList: true,
     subtree: true
 })
 
-/**
- * Listen for messages from the background script.
- * Updates the config object. And reruns
- */
-chrome.runtime.onMessage.addListener((message) => {
-    if (message.command === "newconfig") {
-        config = message.config;
-        checkBoard();
+
+console.log("Invasion module loaded.")
+
+function handleConfig(config) {
+    if(!config) {
+        return;
+    }
+
+    if (config.invasion) {
+        indicatorsRules = config.invasion;
+    }
+    checkBoard();
+}
+
+browser.runtime.onMessage.addListener(message => {
+    if (message.type === 'config') {
+        handleConfig(message.config);
     }
 });
 
+browser.runtime.sendMessage({type: "request", content: 'config'}).then(handleConfig)

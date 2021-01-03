@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *;
+    img-src * 'self' data: https: http:;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+    style-src  'self' 'unsafe-inline' *">
+    <title>Bingosync+</title>
+    <link rel="shortcut icon" type="image/png" href="/icons/icon-48.png">
+    <link rel="stylesheet" href="page.css">
+
+    <!-- Materialize Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="page.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col s12">
+        <h1 style="display: inline-block; padding: 10px">Theming</h1>
+        <a class="btn-floating btn-large waves-effect waves-light red" id="save_load_button" style="margin: 10px"><i
+                class="material-icons">import_export</i></a>
+        <div id="save_load">
+            <a id="save" download="theme.json" class="waves-effect waves-light btn fixed-size">save</a>
+            <label class="btn" for="load" style="color: white">
+                Load
+            </label>
+            <input id="load" type="file" style="display: none" accept=".json"/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col s6 m2">
+        <div class="card small" id="orange_card">
+            <div class="card-content my-content white-text">
+                <span class="card-title">Orange</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="orange_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="orange_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="orange_save">Save</a>
+                <a id="orange_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="red_card">
+            <div class="card-content white-text">
+                <span class="card-title">Red</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="red_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="red_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="red_save">Save</a>
+                <a id="red_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="blue_card">
+            <div class="card-content white-text">
+                <span class="card-title">Blue</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="blue_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="blue_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="blue_save">Save</a>
+                <a id="blue_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="green_card">
+            <div class="card-content white-text">
+                <span class="card-title">Green</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="green_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="green_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="green_save">Save</a>
+                <a id="green_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="purple_card">
+            <div class="card-content white-text">
+                <span class="card-title">Purple</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="purple_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="purple_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="purple_save">Save</a>
+                <a id="purple_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="navy_card">
+            <div class="card-content white-text">
+                <span class="card-title">Navy</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="navy_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="navy_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="navy_save">Save</a>
+                <a id="navy_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="teal_card">
+            <div class="card-content white-text">
+                <span class="card-title">Teal</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="teal_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="teal_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="teal_save">Save</a>
+                <a id="teal_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="brown_card">
+            <div class="card-content white-text">
+                <span class="card-title">Brown</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="brown_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="brown_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="brown_save">Save</a>
+                <a id="brown_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="pink_card">
+            <div class="card-content white-text">
+                <span class="card-title">Pink</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="pink_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="pink_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="pink_save">Save</a>
+                <a id="pink_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s6 m2">
+        <div class="card small" id="yellow_card">
+            <div class="card-content white-text">
+                <span class="card-title">Yellow</span>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">color_lens</i>
+                            <input id="yellow_top" type="text" maxlength="7">
+                            <i class="material-icons prefix postfix" id="yellow_restore">restore</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action my-card-action">
+                <a id="yellow_save">Save</a>
+                <a id="yellow_reset">Reset</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col s12">
+        <h1 style="display: inline-block; padding: 10px">Lists</h1>
+    </div>
+</div>
+<div class="my-row">
+    <div style="flex: 1">
+        <div style="color: white; padding: 0 10px; font-size: 14pt">
+            Main:
+        </div>
+    </div>
+    <div style="flex: 10">
+        <input placeholder="URL" id="url_a" type="text" class="validate">
+        <div id="listA-error" class="my-error" style="display: none"></div>
+        <div id="listA-confirm" class="my-confirm" style="display: none"></div>
+    </div>
+    <div style="flex: 1">
+        <a class="btn-floating btn-large waves-effect waves-light primary" id="load_listA" style="margin: 10px"><i
+                class="material-icons">send</i></a>
+    </div>
+</div>
+<div class="my-row">
+    <div style="flex: 1">
+        <div style="color: white; padding: 0 10px; font-size: 14pt">
+            Secondary:
+        </div>
+    </div>
+    <div style="flex: 10">
+        <input placeholder="URL" id="url_b" type="text" class="validate">
+        <div id="listB-error" class="my-error" style="display: none"></div>
+        <div id="listB-confirm" class="my-confirm" style="display: none"></div>
+    </div>
+    <div style="flex: 1">
+        <a class="btn-floating btn-large waves-effect waves-light primary" id="load_listB" style="margin: 10px"><i
+                class="material-icons">send</i></a>
+    </div>
+</div>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
