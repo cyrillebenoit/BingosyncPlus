@@ -10,8 +10,24 @@ function updateTabs(message) {
     });
 }
 
+function convertBlobToArrayBuffer(blob) {
+    return new Response(blob).arrayBuffer();
+}
+
 browser.runtime.onMessage.addListener((message, sender, respond) => {
     switch (message.type) {
+        case "fileToClip":
+            // Chromium does not implement this API
+            // due to clipboard being manipulatable from the client.
+            if (!!browser?.clipboard?.setImageData) {
+                convertBlobToArrayBuffer(message.blob).then(arrayBuffer => {
+                    browser.clipboard.setImageData(arrayBuffer, "png");
+                    respond({ status: "success"});
+                }).catch(error => { respond({status: 'failed'}) });
+            } else {
+                respond({ status: 'failed'});
+            }
+            break;
         case "config":
             console.log("new config");
             config = message.config;

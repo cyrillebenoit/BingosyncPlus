@@ -86,3 +86,7 @@
 .yellow {
     border-color: #c1ba0b;
 }
+
+.hidden {
+    display: none;
+}

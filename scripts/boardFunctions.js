@@ -4,8 +4,32 @@ const bspScreenshotImageId = 'bsp-screenshot-image';
 
 function dumpBoardToClipboard() {
     const tableToDump = document.getElementById('bingo');
-    domtoimage.toPng(tableToDump).then(url => {
-        document.getElementById(bspScreenshotImageId).src = url;
+    domtoimage.toBlob(tableToDump).then(blob => {
+        // Firefox doesn't implement the constructor,
+        // nor does it support adding non text content to clipboards via client side JS
+        // This check is a proper guard against that scenario.
+        if (typeof ClipboardItem != "undefined") {
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob
+                })
+            ]);
+        } else {
+            browser.runtime.sendMessage({
+                type: "fileToClip",
+                blob: blob
+            }).then((response) => {
+                if (response.message != "success") {
+                    const objectURL = URL.createObjectURL(blob);
+                    const screenshotImage = document.getElementById(bspScreenshotImageId);
+                    if (screenshotImage) {
+                        screenshotImage.onload(() => URL.revokeObjectURL(this.src));
+                        screenshotImage.src = objectURL;
+                        screenshotImage.className = "";
+                    }
+                }
+            });
+        }
     }).catch(console.error);
 }
 
@@ -73,6 +97,7 @@ if (buttonBox) {
         bspScreenshotImage.setAttribute("height", '60px');
         bspScreenshotImage.setAttribute("width", '60px');
         bspScreenshotImage.style = "margin-top: 2px; border: 1px solid #202020";
+        bspScreenshotImage.className = "hidden";
         buttonBox.appendChild(bspScreenshotImage)
     }
 }
