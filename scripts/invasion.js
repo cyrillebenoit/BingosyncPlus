@@ -518,7 +518,7 @@ new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), 
 console.log("Invasion module loaded.")
 
 function handleConfig(config) {
-    if(!config) {
+    if (!config) {
         return;
     }
     if (config.invasion) {
@@ -530,6 +530,7 @@ function handleConfig(config) {
 chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         handleConfig(message.config);
+    }
 });
 
 chrome.runtime.sendMessage({type: "request", content: 'config'}, handleConfig)

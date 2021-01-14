@@ -14,6 +14,7 @@ function addAntiStarHandlers() {
             antistar.id = `antistar_${i}`;
             antistar.className = 'antistarred';
             antistar.style.display = 'none';
+            antistar.style.backgroundImage = `url(${chrome.extension.getURL("/assets/antistar.png")})`;
             antistar.antiMode = 0;
 
             slot.insertBefore(antistar, slot.childNodes.item(1));
