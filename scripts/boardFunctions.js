@@ -4,15 +4,18 @@ const bspScreenshotImageId = 'bsp-screenshot-image';
 const bspScreenshotButtonId = "bsp-screenshot-button";
 
 function dumpBoardToClipboard() {
+    const screenshotButton = document.getElementById(bspScreenshotButtonId);
+    screenshotButton.innerText = "One second...";
+
     // Check if card is revealed
     const boardIsShown = document.getElementsByClassName("board-cover")[0].style.display === 'none';
 
     if (!boardIsShown) {
-        const screenshotButton = document.getElementById(bspScreenshotButtonId);
         screenshotButton.innerText = "No";
         setTimeout(() => screenshotButton.innerText = "Screenshot", 1000);
         return;
     }
+
 
     const tableToDump = document.getElementById('bingo');
     domtoimage.toBlob(tableToDump).then(blob => {
@@ -25,7 +28,6 @@ function dumpBoardToClipboard() {
                     [blob.type]: blob
                 })
             ]);
-            const screenshotButton = document.getElementById(bspScreenshotButtonId);
             screenshotButton.innerText = "Copied!";
             setTimeout(() => screenshotButton.innerText = "Screenshot", 2500);
         } else {
@@ -42,7 +44,6 @@ function dumpBoardToClipboard() {
                         screenshotImage.className = "";
                     }
                 } else {
-                    const screenshotButton = document.getElementById(bspScreenshotButtonId);
                     screenshotButton.innerText = "Copied!";
                     setTimeout(() => screenshotButton.innerText = "Screenshot", 2500);
                 }
@@ -118,3 +119,5 @@ if (buttonBox) {
         buttonBox.appendChild(bspScreenshotImage)
     }
 }
+
+console.log("Board Functions module loaded.")
