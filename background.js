@@ -19,14 +19,17 @@ browser.runtime.onMessage.addListener((message, sender, respond) => {
         case "fileToClip":
             // Chromium does not implement this API
             // due to clipboard being manipulatable from the client.
-            if (!!browser?.clipboard?.setImageData) {
-                convertBlobToArrayBuffer(message.blob).then(arrayBuffer => {
-                    browser.clipboard.setImageData(arrayBuffer, "png");
-                    respond({ status: "success"});
-                }).catch(error => { respond({status: 'failed'}) });
-            } else {
-                respond({ status: 'failed'});
+            if (!browser?.clipboard?.setImageData) {
+                respond({status: 'failed'});
             }
+
+            respond(convertBlobToArrayBuffer(message.blob).then(arrayBuffer => {
+                browser.clipboard.setImageData(arrayBuffer, "png");
+                return true;
+            }).catch(error => {
+                console.error(error);
+                return false;
+            }));
             break;
         case "config":
             console.log("new config");
@@ -62,7 +65,7 @@ browser.runtime.onMessage.addListener((message, sender, respond) => {
                     respond(JSON.parse(localStorage.getItem("bsp_config")));
                     break;
                 case "theme":
-                    if(config){
+                    if (config) {
                         respond(config.theming ? JSON.parse(localStorage.getItem("bsp_theme")) : undefined);
                     }
                     break;

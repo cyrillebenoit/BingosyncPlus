@@ -1,8 +1,19 @@
 console.log("Board functions module loaded.")
 
 const bspScreenshotImageId = 'bsp-screenshot-image';
+const bspScreenshotButtonId = "bsp-screenshot-button";
 
 function dumpBoardToClipboard() {
+    // Check if card is revealed
+    const boardIsShown = document.getElementsByClassName("board-cover")[0].style.display === 'none';
+
+    if (!boardIsShown) {
+        const screenshotButton = document.getElementById(bspScreenshotButtonId);
+        screenshotButton.innerText = "No";
+        setTimeout(() => screenshotButton.innerText = "Screenshot", 1000);
+        return;
+    }
+
     const tableToDump = document.getElementById('bingo');
     domtoimage.toBlob(tableToDump).then(blob => {
         // Firefox doesn't implement the constructor,
@@ -14,12 +25,15 @@ function dumpBoardToClipboard() {
                     [blob.type]: blob
                 })
             ]);
+            const screenshotButton = document.getElementById(bspScreenshotButtonId);
+            screenshotButton.innerText = "Copied!";
+            setTimeout(() => screenshotButton.innerText = "Screenshot", 2500);
         } else {
             browser.runtime.sendMessage({
                 type: "fileToClip",
                 blob: blob
-            }).then((response) => {
-                if (response.message != "success") {
+            }).then(copied => {
+                if (!copied) {
                     const objectURL = URL.createObjectURL(blob);
                     const screenshotImage = document.getElementById(bspScreenshotImageId);
                     if (screenshotImage) {
@@ -27,6 +41,10 @@ function dumpBoardToClipboard() {
                         screenshotImage.src = objectURL;
                         screenshotImage.className = "";
                     }
+                } else {
+                    const screenshotButton = document.getElementById(bspScreenshotButtonId);
+                    screenshotButton.innerText = "Copied!";
+                    setTimeout(() => screenshotButton.innerText = "Screenshot", 2500);
                 }
             });
         }
@@ -79,7 +97,6 @@ function ensureBingosyncPlusSettingsBox() {
 const buttonBox = ensureBingosyncPlusSettingsBox();
 
 if (buttonBox) {
-    const bspScreenshotButtonId = "bsp-screenshot-button";
     if (!document.getElementById(bspScreenshotButtonId)) {
         let screenshotButton = document.createElement('div');
         screenshotButton.id = bspScreenshotButtonId;
