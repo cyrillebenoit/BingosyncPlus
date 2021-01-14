@@ -13,11 +13,13 @@
         "*://*.bingosync.com/room/*"
       ],
       "css": [
+        "styles/antistar.css",
         "styles/clue.css",
         "styles/invasion.css"
       ],
       "js": [
         "scripts/loadLists.js",
+        "scripts/antistar.js",
         "scripts/clue.js",
         "scripts/invasion.js",
         "scripts/ordering.js",
@@ -34,6 +36,7 @@
       "background.js"
     ]
   },
+  "web_accessible_resources": ["assets/antistar.png"],
   "page_action": {
     "default_title": "Bingosync+",
     "default_popup": "pageAction/action.html",
