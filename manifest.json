@@ -19,20 +19,25 @@
         "*://*.bingosync.com/room/*"
       ],
       "css": [
+        "styles/antistar.css",
         "styles/clue.css",
         "styles/invasion.css"
       ],
       "js": [
         "scripts/loadLists.js",
+        "scripts/antistar.js",
         "scripts/clue.js",
         "scripts/invasion.js",
         "scripts/ordering.js",
         "scripts/translate.js",
-        "scripts/theme.js"
+        "scripts/theme.js",
+        "scripts/boardFunctions.js",
+        "libraries/dom-to-img.js"
       ],
       "run_at": "document_end"
     }
   ],
+  "web_accessible_resources": ["assets/antistar.png"],
   "page_action": {
     "default_title": "Bingosync+",
     "default_popup": "pageAction/action.html",
@@ -46,6 +51,7 @@
     "storage",
     "tabs",
     "https://raw.githubusercontent.com/*",
+    "clipboardWrite",
     "declarativeContent"
   ],
   "options_ui": {

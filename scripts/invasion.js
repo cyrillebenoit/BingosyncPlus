@@ -503,6 +503,8 @@ function checkBoard() {
     checkClickableGoals(bingoCard, getPlayerColors());
 }
 
+let chat_element = document.getElementById("bingo-chat");
+
 let startingLanes;
 let bingoCard = newCard();
 
@@ -519,7 +521,6 @@ function handleConfig(config) {
     if(!config) {
         return;
     }
-
     if (config.invasion) {
         indicatorsRules = config.invasion;
     }
@@ -529,7 +530,6 @@ function handleConfig(config) {
 chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         handleConfig(message.config);
-    }
 });
 
 chrome.runtime.sendMessage({type: "request", content: 'config'}, handleConfig)

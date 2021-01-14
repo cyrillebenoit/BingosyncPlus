@@ -10,8 +10,27 @@ function updateTabs(message) {
     });
 }
 
+function convertBlobToArrayBuffer(blob) {
+    return new Response(blob).arrayBuffer();
+}
+
 chrome.runtime.onMessage.addListener((message, sender, respond) => {
     switch (message.type) {
+        case "fileToClip":
+            // Chromium does not implement this API
+            // due to clipboard being manipulatable from the client.
+            if (!browser?.clipboard?.setImageData) {
+                respond({status: 'failed'});
+            }
+
+            respond(convertBlobToArrayBuffer(message.blob).then(arrayBuffer => {
+                browser.clipboard.setImageData(arrayBuffer, "png");
+                return true;
+            }).catch(error => {
+                console.error(error);
+                return false;
+            }));
+            break;
         case "config":
             console.log("new config");
             config = message.config;
@@ -46,7 +65,7 @@ chrome.runtime.onMessage.addListener((message, sender, respond) => {
                     respond(JSON.parse(localStorage.getItem("bsp_config")));
                     break;
                 case "theme":
-                    if(config){
+                    if (config) {
                         respond(config.theming ? JSON.parse(localStorage.getItem("bsp_theme")) : undefined);
                     }
                     break;
