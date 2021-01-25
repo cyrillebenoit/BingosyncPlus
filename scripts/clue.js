@@ -132,7 +132,6 @@ function updateSheets() {
             if (document.getElementsByClassName("board-cover")[0]) {
                 document.getElementsByClassName("board-cover")[0].style.zIndex = '105';
             }
-            console.log(translate)
             translateSheet(sheet, translate ? listsA : listsB, translate ? listsB : listsA);
         }
     } catch (e) {

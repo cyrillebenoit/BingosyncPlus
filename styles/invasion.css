@@ -33,18 +33,19 @@
 }
 
 .circle {
-    border: 8px solid;
-    border-radius: 9px;
-    width: 2px;
+    border: 4.5px solid;
+    border-radius: 5px;
+    width: 6px;
 }
 
 .circle-container {
     position: relative;
     justify-content: space-between;
-    margin: 9px 13px;
+    margin: 8px 2px;
     display: flex;
     flex-basis: auto;
-    height: 15px;
+    height: 4px;
+    z-index: 0;
 }
 
 .green {

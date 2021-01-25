@@ -1,5 +1,3 @@
-console.log("Board functions module loaded.")
-
 const bspScreenshotImageId = 'bsp-screenshot-image';
 const bspScreenshotButtonId = "bsp-screenshot-button";
 
@@ -80,6 +78,26 @@ function ensureBingosyncPlusSettingsBox() {
         </span>
         </div>
         <div class="panel-body" style="overflow: hidden; display: block;">
+        <div style="line-height: 18px; font-size: 90%">
+            <div class="checkbox m-b-s" style="margin-top: 0">
+                <label>
+                    <input id="antistar-checkbox" type="checkbox" checked="">
+                    Anti Stars
+                </label>
+            </div>
+            <div class="checkbox m-b-s">
+                <label>
+                    <input id="anti50-checkbox" type="checkbox" checked="">
+                    50% Opacity
+                </label>
+            </div>
+            <div class="checkbox m-b-s">
+                <label>
+                    <input id="anti100-checkbox" type="checkbox" checked="">
+                    0% Opacity
+                </label>
+            </div>     
+        </div>
         <div id="bingosync-plus-settings-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         </div>
         </div>
