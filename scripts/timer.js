@@ -82,6 +82,9 @@ function stopTimer() {
 
 function handleTimerEvent() {
     let chatBody = document.getElementsByClassName("chat-body")[0];
+    if (!chatBody?.lastChild?.lastChild?.lastChild?.innerText) {
+        return;
+    }
     const lastMessage = chatBody.lastChild.lastChild.lastChild.innerText;
 
     switch (lastMessage.toLowerCase()) {
