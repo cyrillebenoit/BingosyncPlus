@@ -1,0 +1,21 @@
+#bsp-timer-element {
+    font-size: 20pt;
+    font-weight: bold;
+    width: 100%;
+    line-height: 20pt;
+    margin-bottom: 20px;
+    padding: 0 40%;
+    text-align: right;
+}
+
+.running {
+    color: white;
+}
+
+.finished {
+    color: #3e9f00;
+}
+
+.paused {
+    color: #a1a1a1;
+}

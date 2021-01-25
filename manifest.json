@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "2.1",
+  "version": "2.2",
   "description": "Provides multiple improvements to Bingosync.com. Notably: Theming, Translation, Anti-stars, and more!",
   "icons": {
     "48": "icons/icon-48.png",
@@ -15,7 +15,8 @@
       "css": [
         "styles/antistar.css",
         "styles/clue.css",
-        "styles/invasion.css"
+        "styles/invasion.css",
+        "styles/timer.css"
       ],
       "js": [
         "scripts/loadLists.js",
@@ -23,6 +24,7 @@
         "scripts/clue.js",
         "scripts/invasion.js",
         "scripts/ordering.js",
+        "scripts/timer.js",
         "scripts/translate.js",
         "scripts/theme.js",
         "scripts/boardFunctions.js",

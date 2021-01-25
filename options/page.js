@@ -1,4 +1,5 @@
 const key = "bsp_theme";
+const keyFont = "bsp_font";
 const keyA = "bsp_urlA";
 const keyB = "bsp_urlB";
 
@@ -117,9 +118,14 @@ function saveColors(color) {
     inUse[color] = JSON.parse(JSON.stringify(temporary[color]));
     document.getElementById(`${color}_restore`).style = 'display:none';
 
+    const inUseColor = localStorage.getItem(keyFont);
+
     browser.runtime.sendMessage({
         type: "theme",
-        theme: inUse
+        theme: {
+            colors: inUse,
+            font: inUseColor
+        }
     });
     localStorage.setItem(key, JSON.stringify(inUse));
 }
@@ -164,7 +170,7 @@ function loadFile(event) {
         }
         browser.runtime.sendMessage({
             type: "theme",
-            theme: inUse
+            theme: {colors: inUse, font: localStorage.getItem(keyFont)}
         });
         localStorage.setItem(key, JSON.stringify(inUse));
     }
@@ -220,9 +226,21 @@ function testURL(list) {
 
 }
 
+function saveFont() {
+    const font = document.getElementById("font").value;
+    localStorage.setItem(keyFont, font);
+    browser.runtime.sendMessage({
+        type: "theme",
+        theme: {colors: inUse, font: font}
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem(key)) {
         Object.assign(inUse, JSON.parse(localStorage.getItem(key)));
+    }
+    if (localStorage.getItem(keyFont)) {
+        document.getElementById('font').value = localStorage.getItem(keyFont);
     }
     if (localStorage.getItem(keyA)) {
         document.getElementById('url_a').value = localStorage.getItem(keyA);
@@ -250,6 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("save_load_button").addEventListener("click", toggleSaveLoad);
+    document.getElementById("font_button").addEventListener("click", saveFont);
     document.getElementById(`load_listA`).addEventListener("click", () => testURL('A'));
     document.getElementById(`load_listB`).addEventListener("click", () => testURL('B'));
 
