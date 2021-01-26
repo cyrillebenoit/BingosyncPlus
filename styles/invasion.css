@@ -49,42 +49,52 @@
 }
 
 .green {
+    background-color: #20A00A;
     border-color: #20A00A;
 }
 
 .red {
+    background-color: #CE302C;
     border-color: #CE302C;
 }
 
 .orange {
+    background-color: #D0800F;
     border-color: #D0800F;
 }
 
 .blue {
+    background-color: #088CBD;
     border-color: #088CBD;
 }
 
 .purple {
+    background-color:  #7120ab;
     border-color:  #7120ab;
 }
 
 .pink {
+    background-color:  #cc6e8f;
     border-color:  #cc6e8f;
 }
 
 .brown {
+    background-color: #6d3811;
     border-color: #6d3811;
 }
 
 .teal {
+    background-color: #2e7372;
     border-color: #2e7372;
 }
 
 .navy {
+    background-color: #022b75;
     border-color: #022b75;
 }
 
 .yellow {
+    background-color: #c1ba0b;
     border-color: #c1ba0b;
 }
 
