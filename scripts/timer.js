@@ -41,7 +41,7 @@ function getShowTime() {
 
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
-    document.getElementById(timerElementId).innerHTML = hours + ':' + minutes + ':' + seconds + ':' + decimals;
+    document.getElementById(timerElementId).innerHTML = hours + ':' + minutes + ':' + seconds + '.' + decimals;
 }
 
 function startTimer() {
@@ -68,6 +68,15 @@ function pauseTimer() {
         timerInfo.running = false;
         timerInfo.paused = true;
         document.getElementById(timerElementId).className = 'paused';
+        let boardCover = document.getElementsByClassName("board-cover")[0];
+        boardCover.style = 'display: flex; z-index: 4;';
+        boardCover.classList.add('fading');
+        boardCover.onclick = () => {
+            boardCover.style = 'display:none; z-index: -1;';
+            boardCover.onclick = undefined;
+            boardCover.style = 'display: none; z-index: -1;'
+        }
+        boardCover.firstElementChild.innerText = "Game is paused!";
     }
 }
 

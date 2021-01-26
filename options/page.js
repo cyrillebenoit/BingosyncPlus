@@ -228,6 +228,13 @@ function testURL(list) {
 
 function saveFont() {
     const font = document.getElementById("font").value;
+    // display success message
+    const elementById = document.getElementById("font-confirm");
+    elementById.innerText = "Fonts were successfully loaded. Make sure you didn't make a typo!";
+    elementById.style.display = 'block';
+    // set timeout to remove div
+    setTimeout(() => elementById.style.display = 'none', 2500);
+
     localStorage.setItem(keyFont, font);
     chrome.runtime.sendMessage({
         type: "theme",

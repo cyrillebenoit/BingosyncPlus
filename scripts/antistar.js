@@ -25,7 +25,7 @@ function addAntiStarHandlers() {
             clickHandler.style.width = '50%';
             clickHandler.style.right = '0';
             clickHandler.style.position = 'absolute';
-            clickHandler.style.zIndex = '1';
+            clickHandler.style.zIndex = '3';
 
             clickHandler.addEventListener("contextmenu", e => {
                 // get current anti mode
@@ -38,6 +38,8 @@ function addAntiStarHandlers() {
                     document.getElementById("anti100-checkbox").checked,
                     true,
                 ];
+
+                console.log(enabledModes)
 
                 let mode = (antistar.antiMode + 1) % 4;
                 while (!enabledModes[mode]) {
