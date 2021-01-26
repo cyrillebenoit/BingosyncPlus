@@ -60,7 +60,7 @@ function translateCard() {
                     translated.className = 'vertical-center text-container';
                     translated.style = 'font-size: 100%';
                     translated.id = `translated_goal_${i}`;
-                    translated.style.zIndex = '2';
+                    translated.style.zIndex = '0';
                     translated.innerText = translatedText;
                     slot.parentElement.appendChild(translated);
                 }
