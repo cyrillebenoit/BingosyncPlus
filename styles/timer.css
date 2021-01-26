@@ -19,3 +19,16 @@
 .paused {
     color: #a1a1a1;
 }
+
+.fading {
+    animation: fade-in 1s alternate infinite ease-out;
+}
+
+@keyframes fade-in {
+    from {
+        background-color: #8f0000;
+    }
+    to {
+        background-color: #5a0000;
+    }
+}

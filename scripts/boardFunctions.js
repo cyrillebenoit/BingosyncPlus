@@ -81,19 +81,19 @@ function ensureBingosyncPlusSettingsBox() {
         <div style="line-height: 18px; font-size: 90%">
             <div class="checkbox m-b-s" style="margin-top: 0">
                 <label>
-                    <input id="antistar-checkbox" type="checkbox" checked="">
+                    <input id="antistar-checkbox" type="checkbox">
                     Anti Stars
                 </label>
             </div>
             <div class="checkbox m-b-s">
                 <label>
-                    <input id="anti50-checkbox" type="checkbox" checked="">
+                    <input id="anti50-checkbox" type="checkbox">
                     50% Opacity
                 </label>
             </div>
             <div class="checkbox m-b-s">
                 <label>
-                    <input id="anti100-checkbox" type="checkbox" checked="">
+                    <input id="anti100-checkbox" type="checkbox">
                     0% Opacity
                 </label>
             </div>     
