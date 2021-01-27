@@ -102,7 +102,10 @@ function handleTimerEvent() {
     }
     // Check for start before page load
     if (timerInfo.start === 0) {
-        checkStatusOnLoad();
+        if(!checkStatusOnLoad()) {
+            const timerElement = document.getElementById(timerElementId);
+            timerElement.innerText = "00:00.0";
+        }
     }
     const lastMessage = chatBody.lastChild.lastChild.lastChild.innerText;
 
@@ -148,13 +151,14 @@ function checkStatusOnLoad() {
                     let startTime = chatEntry.firstChild.innerText;
                     let startDate = getRecentDate(startTime);
                     startTimer(startDate);
-                    return;
+                    return true;
                 } else if (command === timerPauseWord || command === timerEndWord) {
-                    return;
+                    return false;
                 }
             }
         }
     }
+    return false;
 }
 
 function addTimestamps() {
