@@ -17,13 +17,24 @@ function createTimerElement() {
     if (!document.getElementById(timerElementId)) {
         const timerElement = document.createElement("div");
         timerElement.id = timerElementId;
-        timerElement.innerText = "0:00:00.0";
+        timerElement.innerText = "Loading...";
         const brother = document.getElementsByClassName("board-container")[0];
         brother.parentElement.insertBefore(timerElement, brother)
     }
 }
 
 createTimerElement();
+
+function formatDuration(diff, trimHours, trimDecimals) {
+    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    let decimals = Math.floor((diff % 1000) / 100);
+
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    return `${trimHours && hours === 0 ? '' : `${hours}:`}${minutes}:${seconds}${trimDecimals ? '' : `.${decimals}`}`;
+}
 
 function getShowTime() {
     // calculate time
@@ -34,14 +45,7 @@ function getShowTime() {
         timerInfo.difference = updatedTime - timerInfo.start;
     }
 
-    let hours = Math.floor((timerInfo.difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((timerInfo.difference % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timerInfo.difference % (1000 * 60)) / 1000);
-    let decimals = Math.floor((timerInfo.difference % 1000) / 100);
-
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-    document.getElementById(timerElementId).innerHTML = hours + ':' + minutes + ':' + seconds + '.' + decimals;
+    document.getElementById(timerElementId).innerHTML = formatDuration(timerInfo.difference, true, false);
 }
 
 function startTimer(start) {
@@ -57,6 +61,7 @@ function startTimer(start) {
         evObj.initEvent('click', true, false);
         document.getElementsByClassName("board-cover")[0].dispatchEvent(evObj);
     }
+    addTimestamps();
 }
 
 function pauseTimer() {
@@ -91,24 +96,27 @@ function stopTimer() {
 
 function handleTimerEvent() {
     let chatBody = document.getElementsByClassName("chat-body")[0];
+    addTimestamps();
     if (!chatBody?.lastChild?.lastChild?.lastChild?.innerText) {
         return;
+    }
+    // Check for start before page load
+    if (timerInfo.start === 0) {
+        checkStatusOnLoad();
     }
     const lastMessage = chatBody.lastChild.lastChild.lastChild.innerText;
 
     switch (lastMessage.toLowerCase()) {
         case timerStartWord:
             startTimer();
-            return;
+            break;
         case timerPauseWord:
             pauseTimer();
-            return;
+            break;
         case timerEndWord:
             stopTimer();
-            return;
+            break;
     }
-
-    checkStatusOnLoad();
 }
 
 new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-chat"), {
@@ -145,6 +153,30 @@ function checkStatusOnLoad() {
                     return;
                 }
             }
+        }
+    }
+}
+
+function addTimestamps() {
+    if (!timerInfo.start) {
+        return;
+    }
+
+    const entries = [
+        ...document.getElementsByClassName("chat-entry"),
+        ...document.getElementsByClassName("goal-entry"),
+        ...document.getElementsByClassName("connection-entry"),
+        ...document.getElementsByClassName("revealed-entry")
+    ];
+
+    for (const entry of entries) {
+        if (entry.firstElementChild.children[0].className !== 'bsp-timestamp') {
+            let goalTime = entry.firstChild.firstChild.innerText;
+            let goalDate = getRecentDate(goalTime);
+            let timestamp = document.createElement("div");
+            timestamp.innerText = goalDate - timerInfo.start + timerInfo.saved >= 0 ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
+            timestamp.className = 'bsp-timestamp';
+            entry.firstChild.insertBefore(timestamp, entry.firstElementChild.children[0]);
         }
     }
 }
