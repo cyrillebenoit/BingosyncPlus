@@ -44,9 +44,9 @@ function getShowTime() {
     document.getElementById(timerElementId).innerHTML = hours + ':' + minutes + ':' + seconds + '.' + decimals;
 }
 
-function startTimer() {
+function startTimer(start) {
     if (!timerInfo.running) {
-        timerInfo.start = Date.now();
+        timerInfo.start = start || Date.now();
         timerInfo.tInterval = setInterval(getShowTime, 50);
         timerInfo.paused = false;
         timerInfo.running = true;
@@ -99,14 +99,16 @@ function handleTimerEvent() {
     switch (lastMessage.toLowerCase()) {
         case timerStartWord:
             startTimer();
-            break;
+            return;
         case timerPauseWord:
             pauseTimer();
-            break;
+            return;
         case timerEndWord:
             stopTimer();
-            break;
+            return;
     }
+
+    checkStatusOnLoad();
 }
 
 new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-chat"), {
@@ -114,3 +116,35 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
     childList: true,
     subtree: true
 })
+
+function getRecentDate(time) {
+    let now = new Date();
+    let [hours, minutes, seconds] = time.split(':')
+    let fullDate = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), +hours, +minutes, +seconds);
+    fullDate += now.getTimezoneOffset() * 60 * 1000;
+    while (fullDate > Date.now()) {
+        fullDate -= 24 * 60 * 60 * 1000;
+    }
+    return fullDate;
+}
+
+function checkStatusOnLoad() {
+    const chatBody = document.getElementsByClassName("chat-history")[0];
+    if (chatBody) {
+        for (let i = chatBody.childElementCount - 1; i >= 0; i--) {
+            let element = chatBody.childNodes.item(i);
+            if (element && element.className === 'chat-entry') {
+                let chatEntry = element.firstChild;
+                const command = chatEntry.lastChild.innerText;
+                if (!timerInfo.running && command === timerStartWord) {
+                    let startTime = chatEntry.firstChild.innerText;
+                    let startDate = getRecentDate(startTime);
+                    startTimer(startDate);
+                    return;
+                } else if (command === timerPauseWord || command === timerEndWord) {
+                    return;
+                }
+            }
+        }
+    }
+}
