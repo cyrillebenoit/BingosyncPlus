@@ -20,6 +20,13 @@
     color: #a1a1a1;
 }
 
+.bsp-timestamp {
+    font-size: 80%;
+    color: #6dff54;
+    display: inline;
+    margin-right: 2px;
+}
+
 .fading {
     animation: fade-in 1s alternate infinite ease-out;
 }

@@ -81,6 +81,12 @@ function ensureBingosyncPlusSettingsBox() {
         <div style="line-height: 18px; font-size: 90%">
             <div class="checkbox m-b-s" style="margin-top: 0">
                 <label>
+                    <input id="timestamp-checkbox" type="checkbox" checked>
+                    Timestamps
+                </label>
+            </div>
+            <div class="checkbox m-b-s">
+                <label>
                     <input id="antistar-checkbox" type="checkbox">
                     Anti Stars
                 </label>
@@ -116,6 +122,15 @@ function ensureBingosyncPlusSettingsBox() {
 const buttonBox = ensureBingosyncPlusSettingsBox();
 
 if (buttonBox) {
+    if (document.getElementById("timestamp-checkbox")) {
+        document.getElementById("timestamp-checkbox").addEventListener("click", () => {
+            // set timestamp visibility
+            const visible = document.getElementById("timestamp-checkbox").checked;
+            for (const element of document.getElementsByClassName("bsp-timestamp")) {
+                element.style.display = visible ? 'inline' : 'none';
+            }
+        });
+    }
     if (!document.getElementById(bspScreenshotButtonId)) {
         let screenshotButton = document.createElement('div');
         screenshotButton.id = bspScreenshotButtonId;

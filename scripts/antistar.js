@@ -25,7 +25,7 @@ function addAntiStarHandlers() {
             clickHandler.style.width = '50%';
             clickHandler.style.right = '0';
             clickHandler.style.position = 'absolute';
-            clickHandler.style.zIndex = '3';
+            clickHandler.style.zIndex = '1';
 
             clickHandler.addEventListener("contextmenu", e => {
                 // get current anti mode

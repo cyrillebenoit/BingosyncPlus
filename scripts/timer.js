@@ -17,13 +17,24 @@ function createTimerElement() {
     if (!document.getElementById(timerElementId)) {
         const timerElement = document.createElement("div");
         timerElement.id = timerElementId;
-        timerElement.innerText = "0:00:00.0";
+        timerElement.innerText = "Loading...";
         const brother = document.getElementsByClassName("board-container")[0];
         brother.parentElement.insertBefore(timerElement, brother)
     }
 }
 
 createTimerElement();
+
+function formatDuration(diff, trimHours, trimDecimals) {
+    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    let decimals = Math.floor((diff % 1000) / 100);
+
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    return `${trimHours && hours === 0 ? '' : `${hours}:`}${minutes}:${seconds}${trimDecimals ? '' : `.${decimals}`}`;
+}
 
 function getShowTime() {
     // calculate time
@@ -34,19 +45,12 @@ function getShowTime() {
         timerInfo.difference = updatedTime - timerInfo.start;
     }
 
-    let hours = Math.floor((timerInfo.difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((timerInfo.difference % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timerInfo.difference % (1000 * 60)) / 1000);
-    let decimals = Math.floor((timerInfo.difference % 1000) / 100);
-
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-    document.getElementById(timerElementId).innerHTML = hours + ':' + minutes + ':' + seconds + '.' + decimals;
+    document.getElementById(timerElementId).innerHTML = formatDuration(timerInfo.difference, true, false);
 }
 
-function startTimer() {
+function startTimer(start) {
     if (!timerInfo.running) {
-        timerInfo.start = Date.now();
+        timerInfo.start = start || Date.now();
         timerInfo.tInterval = setInterval(getShowTime, 50);
         timerInfo.paused = false;
         timerInfo.running = true;
@@ -57,6 +61,7 @@ function startTimer() {
         evObj.initEvent('click', true, false);
         document.getElementsByClassName("board-cover")[0].dispatchEvent(evObj);
     }
+    addTimestamps();
 }
 
 function pauseTimer() {
@@ -91,8 +96,13 @@ function stopTimer() {
 
 function handleTimerEvent() {
     let chatBody = document.getElementsByClassName("chat-body")[0];
+    addTimestamps();
     if (!chatBody?.lastChild?.lastChild?.lastChild?.innerText) {
         return;
+    }
+    // Check for start before page load
+    if (timerInfo.start === 0) {
+        checkStatusOnLoad();
     }
     const lastMessage = chatBody.lastChild.lastChild.lastChild.innerText;
 
@@ -114,3 +124,59 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
     childList: true,
     subtree: true
 })
+
+function getRecentDate(time) {
+    let now = new Date();
+    let [hours, minutes, seconds] = time.split(':')
+    let fullDate = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), +hours, +minutes, +seconds);
+    fullDate += now.getTimezoneOffset() * 60 * 1000;
+    while (fullDate > Date.now()) {
+        fullDate -= 24 * 60 * 60 * 1000;
+    }
+    return fullDate;
+}
+
+function checkStatusOnLoad() {
+    const chatBody = document.getElementsByClassName("chat-history")[0];
+    if (chatBody) {
+        for (let i = chatBody.childElementCount - 1; i >= 0; i--) {
+            let element = chatBody.childNodes.item(i);
+            if (element && element.className === 'chat-entry') {
+                let chatEntry = element.firstChild;
+                const command = chatEntry.lastChild.innerText;
+                if (!timerInfo.running && command === timerStartWord) {
+                    let startTime = chatEntry.firstChild.innerText;
+                    let startDate = getRecentDate(startTime);
+                    startTimer(startDate);
+                    return;
+                } else if (command === timerPauseWord || command === timerEndWord) {
+                    return;
+                }
+            }
+        }
+    }
+}
+
+function addTimestamps() {
+    if (!timerInfo.start) {
+        return;
+    }
+
+    const entries = [
+        ...document.getElementsByClassName("chat-entry"),
+        ...document.getElementsByClassName("goal-entry"),
+        ...document.getElementsByClassName("connection-entry"),
+        ...document.getElementsByClassName("revealed-entry")
+    ];
+
+    for (const entry of entries) {
+        if (entry.firstElementChild.children[0].className !== 'bsp-timestamp') {
+            let goalTime = entry.firstChild.firstChild.innerText;
+            let goalDate = getRecentDate(goalTime);
+            let timestamp = document.createElement("div");
+            timestamp.innerText = goalDate - timerInfo.start + timerInfo.saved >= 0 ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
+            timestamp.className = 'bsp-timestamp';
+            entry.firstChild.insertBefore(timestamp, entry.firstElementChild.children[0]);
+        }
+    }
+}

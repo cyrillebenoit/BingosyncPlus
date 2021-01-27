@@ -8,7 +8,7 @@ function labelCard() {
             for (const child of slot.childNodes) {
                 if (child.className === 'vertical-center text-container') {
                     child.id = `original_goal_${i}`;
-                    child.style.zIndex = '2';
+                    child.style.zIndex = '0';
                     break;
                 }
             }
