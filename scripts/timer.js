@@ -174,8 +174,12 @@ function addTimestamps() {
             let goalTime = entry.firstChild.firstChild.innerText;
             let goalDate = getRecentDate(goalTime);
             let timestamp = document.createElement("div");
-            timestamp.innerText = goalDate - timerInfo.start + timerInfo.saved >= 0 ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
+            const displayTimestamp = goalDate - timerInfo.start + timerInfo.saved >= 0;
+            timestamp.innerText = displayTimestamp ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
             timestamp.className = 'bsp-timestamp';
+            if(!displayTimestamp) {
+                timestamp.style.marginRight = '0';
+            }
             entry.firstChild.insertBefore(timestamp, entry.firstElementChild.children[0]);
         }
     }
