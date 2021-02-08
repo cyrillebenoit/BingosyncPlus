@@ -19,7 +19,11 @@ function createTimerElement() {
         timerElement.id = timerElementId;
         timerElement.innerText = "Loading...";
         const brother = document.getElementsByClassName("board-container")[0];
-        brother.parentElement.insertBefore(timerElement, brother)
+        const container = document.createElement("div");
+        container.id = 'bsp-board-container';
+        container.appendChild(timerElement);
+        brother.parentElement.appendChild(container);
+        container.appendChild(brother);
     }
 }
 
@@ -130,9 +134,8 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
 
 function getRecentDate(time) {
     let now = new Date();
-    let [hours, minutes, seconds] = time.split(':')
-    let fullDate = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), +hours, +minutes, +seconds);
-    fullDate += now.getTimezoneOffset() * 60 * 1000;
+    const dateString = `${now.getFullYear()}-${(now.getMonth() < 10 ? '0' : '') + now.getMonth()}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
+    let fullDate = Date.parse(dateString);
     while (fullDate > Date.now()) {
         fullDate -= 24 * 60 * 60 * 1000;
     }
