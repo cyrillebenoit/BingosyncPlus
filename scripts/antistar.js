@@ -14,6 +14,7 @@ function addAntiStarHandlers() {
             antistar.id = `antistar_${i}`;
             antistar.className = 'antistarred';
             antistar.style.display = 'none';
+            antistar.style.backgroundImage = `url(${chrome.extension.getURL("/assets/antistar.png")})`;
             antistar.antiMode = 3;
 
             slot.insertBefore(antistar, slot.childNodes.item(1));
@@ -38,8 +39,6 @@ function addAntiStarHandlers() {
                     document.getElementById("anti100-checkbox").checked,
                     true,
                 ];
-
-                console.log(enabledModes)
 
                 let mode = (antistar.antiMode + 1) % 4;
                 while (!enabledModes[mode]) {
