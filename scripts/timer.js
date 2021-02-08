@@ -19,7 +19,11 @@ function createTimerElement() {
         timerElement.id = timerElementId;
         timerElement.innerText = "Loading...";
         const brother = document.getElementsByClassName("board-container")[0];
-        brother.parentElement.insertBefore(timerElement, brother)
+        const container = document.createElement("div");
+        container.id = 'bsp-board-container';
+        container.appendChild(timerElement);
+        brother.parentElement.appendChild(container);
+        container.appendChild(brother);
     }
 }
 

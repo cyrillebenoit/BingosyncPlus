@@ -15,7 +15,7 @@ function dumpBoardToClipboard() {
     }
 
 
-    const tableToDump = document.getElementById('bingo');
+    const tableToDump = document.getElementById('bsp-board-container');
     domtoimage.toBlob(tableToDump).then(blob => {
         // Firefox doesn't implement the constructor,
         // nor does it support adding non text content to clipboards via client side JS
