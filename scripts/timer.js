@@ -134,9 +134,8 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
 
 function getRecentDate(time) {
     let now = new Date();
-    let [hours, minutes, seconds] = time.split(':')
-    let fullDate = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), +hours, +minutes, +seconds);
-    fullDate += now.getTimezoneOffset() * 60 * 1000;
+    const dateString = `${now.getFullYear()}-${(now.getMonth() < 10 ? '0' : '') + now.getMonth()}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
+    let fullDate = Date.parse(dateString);
     while (fullDate > Date.now()) {
         fullDate -= 24 * 60 * 60 * 1000;
     }

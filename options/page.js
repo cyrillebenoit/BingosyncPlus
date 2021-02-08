@@ -1,4 +1,4 @@
-const key = "bsp_theme";
+const key = "bsp_theme_settings";
 const keyFont = "bsp_font";
 const keyA = "bsp_urlA";
 const keyB = "bsp_urlB";
@@ -118,13 +118,13 @@ function saveColors(color) {
     inUse[color] = JSON.parse(JSON.stringify(temporary[color]));
     document.getElementById(`${color}_restore`).style = 'display:none';
 
-    const inUseColor = localStorage.getItem(keyFont);
+    const inUseFont = localStorage.getItem(keyFont);
 
     browser.runtime.sendMessage({
         type: "theme",
         theme: {
             colors: inUse,
-            font: inUseColor
+            font: inUseFont
         }
     });
     localStorage.setItem(key, JSON.stringify(inUse));
@@ -145,7 +145,6 @@ function restoreColors(color) {
 }
 
 function loadFile(event) {
-    // let fileName = file.target.files[0];
     const reader = new FileReader();
     reader.onload = onReaderLoad;
     reader.readAsText(event.target.files[0]);
