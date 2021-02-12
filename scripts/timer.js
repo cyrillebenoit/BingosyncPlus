@@ -134,7 +134,7 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
 
 function getRecentDate(time) {
     let now = new Date();
-    const dateString = `${now.getFullYear()}-${(now.getMonth() < 10 ? '0' : '') + now.getMonth()}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
+    const dateString = `${now.getFullYear()}-${(now.getMonth() < 10 ? '0' : '') + (1 + now.getMonth())}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
     let fullDate = Date.parse(dateString);
     while (fullDate > Date.now()) {
         fullDate -= 24 * 60 * 60 * 1000;
@@ -180,6 +180,7 @@ function addTimestamps() {
         if (entry.firstElementChild.children[0].className !== 'bsp-timestamp') {
             let goalTime = entry.firstChild.firstChild.innerText;
             let goalDate = getRecentDate(goalTime);
+            console.log(goalDate);
             let timestamp = document.createElement("div");
             const displayTimestamp = goalDate - timerInfo.start + timerInfo.saved >= 0;
             timestamp.innerText = displayTimestamp ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';

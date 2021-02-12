@@ -2,24 +2,27 @@ console.log("Translate module loaded.");
 
 let translate = false;
 
-function translateGoal(goal, a, b) {
-    if (typeof a[0] === typeof []) {
-        let originalList, originalPosition;
-        for (let list = 0; list < a.length; list++) {
-            const index = a[list].findIndex(el => el.name === goal);
-            if (index >= 0) {
-                originalPosition = index;
-                originalList = list;
-                break;
-            }
-        }
-        if (originalList > -1 && originalPosition > -1)
-            return b[originalList][originalPosition].name;
-    } else if (typeof a[0] === typeof '') {
-        const originalPosition = a.findIndex(el => el === goal);
-        if (originalPosition > -1)
-            return b[originalPosition];
+function translateGoal(goal, from, to) {
+    if (!coherent) {
+        throw 'not coherent';
     }
+    // SRL-style list
+    if (typeof from[0] === "object") {
+        const indexInLists = from.findIndex(list => list.some(el => el.name === goal));
+        if (indexInLists > -1) {
+            const indexInList = from[indexInLists].findIndex(el => el.name === goal);
+            if (indexInList > -1) {
+                return to[indexInLists][indexInList].name;
+            }
+        } else {
+            // element not in list
+        }
+    }
+    // else if (typeof from[0] === typeof '') {
+    //     const originalPosition = from.findIndex(el => el === goal);
+    //     if (originalPosition > -1 && to[originalPosition])
+    //         return to[originalPosition];
+    // }
     throw '';
 }
 
@@ -44,59 +47,40 @@ function translateSheet(sheet, a, b) {
 
 function translateCard() {
     for (let i = 1; i <= 25; i++) {
-        // Check if translation exists for that goal
-        let translatedGoal = document.getElementById(`translated_goal_${i}`);
-        if (!translatedGoal) {
-            const slot = document.getElementById(`original_goal_${i}`);
-            if (!slot) {
-                return;
+        if (!coherent) {
+            const original = document.getElementById(`original_goal_${i}`);
+            original.style.opacity = '1';
+            const translated = document.getElementById(`translated_goal_${i}`);
+            if (translated) {
+                translated.style.opacity = '0';
             }
-            let goalText = slot.innerText;
-            try {
-                // Translate goal text
-                let translatedText = translateGoal(goalText, listsA, listsB);
-                if (translatedText !== undefined) {
-                    let translated = document.createElement('div');
-                    translated.className = 'vertical-center text-container';
-                    translated.style = 'font-size: 100%';
-                    translated.id = `translated_goal_${i}`;
-                    translated.style.zIndex = '0';
-                    translated.innerText = translatedText;
-                    slot.parentElement.appendChild(translated);
-                }
-            } catch (e) {
-            }
+            continue;
         }
-
-
         // Display original goal and hide translated
         const sheet = document.getElementById(`sheet${i}`);
+        const original = document.getElementById(`original_goal_${i}`);
+        const translated = document.getElementById(`translated_goal_${i}`);
         if (translate) {
-            document.getElementById(`original_goal_${i}`).style.opacity = '0';
-            document.getElementById(`translated_goal_${i}`).style.opacity = '1';
+            if (original)
+                original.style.opacity = '0';
+            if (translated)
+                translated.style.opacity = '1';
 
             // Clue
             translateSheet(sheet, listsA, listsB);
-
         } else {
-            if (document.getElementById(`translated_goal_${i}`))
-                document.getElementById(`translated_goal_${i}`).style.opacity = '0';
-            if (document.getElementById(`original_goal_${i}`))
-                document.getElementById(`original_goal_${i}`).style.opacity = '1';
+            if (translated)
+                translated.style.opacity = '0';
+            if (original)
+                original.style.opacity = '1';
 
             // Clue
             translateSheet(sheet, listsB, listsA);
         }
-    }
 
-// Chat
-    for (const goalName of document.getElementsByClassName('goal-name')) {
-        try {
-            const translatedChat = translateGoal(goalName.innerText, translate ? listsA : listsB, translate ? listsB : listsA);
-            if (translatedChat) {
-                goalName.innerText = translatedChat
-            }
-        } catch (e) {
+        for(const goalName of document.getElementsByClassName("goal-name")) {
+            goalName.children[0].style.display = translate ? 'none' : 'inline';
+            goalName.children[1].style.display = translate ? 'inline' : 'none';
         }
     }
 }
@@ -108,20 +92,14 @@ browser.runtime.onMessage.addListener(message => {
 });
 
 function handleTranslationConfig(config) {
-    if (!config) {
-        return;
-    }
-    if (translate !== config.translation) {
+    if (config && translate !== config.translation) {
         translate = config.translation;
         if (listsA === []) {
-            console.log("Main list is not defined");
-            translate = false;
+            console.debug("Warning: Main list is not defined");
         } else if (listsB === []) {
-            console.log("Secondary list is not defined");
-            translate = false;
+            console.debug("Warning: Secondary list is not defined");
         }
     }
-
     translateCard();
 }
 

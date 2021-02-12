@@ -190,11 +190,7 @@ function toggleSaveLoad() {
 async function loadURL(url) {
     return fetch(url)
         .then(response => response.text())
-        .then(body => {
-            // eval
-            body = body.substring(body.indexOf('\n')).concat("(bingoList)");
-            return body;
-        });
+        .then(body => body.substring(body.indexOf(';') + 1).concat(" (bingoList)"));
 }
 
 function testURL(list) {
@@ -209,7 +205,6 @@ function testURL(list) {
         elementById.style.display = 'block';
         // set timeout to remove div
         setTimeout(() => elementById.style.display = 'none', 2500);
-
         browser.runtime.sendMessage({
             type: `lists${list}`,
             lists: lists
