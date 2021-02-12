@@ -180,7 +180,6 @@ function addTimestamps() {
         if (entry.firstElementChild.children[0].className !== 'bsp-timestamp') {
             let goalTime = entry.firstChild.firstChild.innerText;
             let goalDate = getRecentDate(goalTime);
-            console.log(goalDate);
             let timestamp = document.createElement("div");
             const displayTimestamp = goalDate - timerInfo.start + timerInfo.saved >= 0;
             timestamp.innerText = displayTimestamp ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
