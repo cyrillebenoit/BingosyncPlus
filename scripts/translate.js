@@ -77,10 +77,16 @@ function translateCard() {
             // Clue
             translateSheet(sheet, listsB, listsA);
         }
+    }
 
-        for(const goalName of document.getElementsByClassName("goal-name")) {
+    for (const goalName of document.getElementsByClassName("goal-name")) {
+        try {
             goalName.children[0].style.display = translate ? 'none' : 'inline';
             goalName.children[1].style.display = translate ? 'inline' : 'none';
+        } catch (e) {
+            // if could not find one of the translated tags, re-label the board
+            if (coherent)
+                labelCard();
         }
     }
 }
