@@ -390,7 +390,7 @@ function checkClickableGoals(card, colors) {
                 // Create new Element with class
                 newContainer.appendChild(newChild);
             }
-            slot.insertBefore(newContainer, slot.childNodes[slot.childElementCount - 1]);
+            slot.insertBefore(newContainer, slot.children[slot.childElementCount - 2]);
         }
     }
 }
