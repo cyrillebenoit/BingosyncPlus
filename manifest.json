@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "description": "Provides multiple improvements to Bingosync.com. Notably: Theming, Integrated Timer, Anti-stars, Translation, and more!",
   "icons": {
     "48": "icons/48.png",
@@ -53,8 +53,7 @@
     "storage",
     "tabs",
     "https://raw.githubusercontent.com/*",
-    "clipboardWrite",
-    "declarativeContent"
+    "clipboardWrite"
   ],
   "options_ui": {
     "open_in_tab": true,
