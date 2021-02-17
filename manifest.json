@@ -50,6 +50,7 @@
   },
   "permissions": [
     "activeTab",
+    "declarativeContent",
     "storage",
     "tabs",
     "https://raw.githubusercontent.com/*",
