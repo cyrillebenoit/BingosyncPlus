@@ -22,6 +22,7 @@
         "scripts/loadLists.js",
         "scripts/antistar.js",
         "scripts/clue.js",
+        "scripts/draft.js",
         "scripts/invasion.js",
         "scripts/ordering.js",
         "scripts/timer.js",

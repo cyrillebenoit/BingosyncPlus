@@ -390,7 +390,8 @@ function checkClickableGoals(card, colors) {
                 // Create new Element with class
                 newContainer.appendChild(newChild);
             }
-            slot.insertBefore(newContainer, slot.children[slot.childElementCount - 2]);
+
+            slot.insertBefore(newContainer, getElementChildByClassName(slot, "text-container"));
         }
     }
 }
@@ -516,7 +517,7 @@ new MutationObserver(checkBoard).observe(document.getElementById("bingo-chat"), 
 console.log("Invasion module loaded.")
 
 function handleConfig(config) {
-    if(!config) {
+    if (!config) {
         return;
     }
 

@@ -1,6 +1,17 @@
 const bspScreenshotImageId = 'bsp-screenshot-image';
 const bspScreenshotButtonId = "bsp-screenshot-button";
 
+function getElementChildByClassName(element, className) {
+    let child = null;
+    for (let i = 0; i < element.childNodes.length; i++) {
+        if (element.childNodes[i].className === className) {
+            child = element.childNodes[i];
+            break;
+        }
+    }
+    return child;
+}
+
 function dumpBoardToClipboard() {
     const screenshotButton = document.getElementById(bspScreenshotButtonId);
     screenshotButton.innerText = "One second...";

@@ -56,6 +56,7 @@ function apply(theme) {
         css += `.${color}square {background-image: linear-gradient(${theme.colors[color]["top"]} 60%, ${theme.colors[color]["bottom"]}) !important;} `;
         css += `.${color} {border-color: ${theme.colors[color]["top"]} !important;} `;
         css += `.${color}player {color: ${theme.colors[color]["top"]} !important;} `;
+        css += `.${color}draft {border-color: ${theme.colors[color]["top"]} ${theme.colors[color]["top"]} ${theme.colors[color]["top"]} ${theme.colors[color]["top"]} !important;} `;
     }
 
     const fontFamily = theme.font;
