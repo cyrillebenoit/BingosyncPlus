@@ -56,11 +56,11 @@ function restoreOptions() {
         return;
     }
     let {invasion, translation, ordering, rowControl, clue, draft, theming} = config;
-    document.querySelector("#enable-draft").checked = draft.enabled;
+    document.querySelector("#enable-draft").checked = draft && draft.enabled;
     document.querySelector("#enable-row-control").checked = rowControl;
-    document.querySelector("#enable-invasion").checked = invasion.enabled;
-    handleSettingsAction("invasion-settings", invasion.enabled);
-    handleSettingsAction("draft-settings", draft.enabled);
+    document.querySelector("#enable-invasion").checked = invasion && invasion.enabled;
+    handleSettingsAction("invasion-settings", invasion && invasion.enabled);
+    handleSettingsAction("draft-settings", draft && draft.enabled);
     document.querySelector("#p1c").checked = invasion.players[0].clickable;
     document.querySelector("#p1m").checked = invasion.players[0].mistake;
     document.querySelector("#p2c").checked = invasion.players[1].clickable;
