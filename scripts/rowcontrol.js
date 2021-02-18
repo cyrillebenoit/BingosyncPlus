@@ -1,6 +1,11 @@
 let enableRC = false;
 
 function checkRows() {
+
+    for(const counter of document.getElementsByClassName("rowcounter")) {
+        counter.style.display = 'none';
+    }
+
     const colors = getPlayerColors();
 
     const scores = [0, 0]
@@ -60,7 +65,7 @@ function setScore(color, score) {
         if (child.className.includes(`${color}square`)) {
             let playerRCScore = getElementChildByClassName(child, 'bsp_rowcounter');
             if (!playerRCScore) {
-                let playerRCScore = document.createElement("div");
+                playerRCScore = document.createElement("div");
                 playerRCScore.className = 'bsp_rowcounter';
                 child.appendChild(playerRCScore);
             }
