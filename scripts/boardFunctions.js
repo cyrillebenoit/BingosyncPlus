@@ -4,7 +4,7 @@ const bspScreenshotButtonId = "bsp-screenshot-button";
 function getElementChildByClassName(element, className) {
     let child = null;
     for (let i = 0; i < element.childNodes.length; i++) {
-        if (element.childNodes[i].className === className) {
+        if (element.childNodes[i].className && element.childNodes[i].className.includes(className)) {
             child = element.childNodes[i];
             break;
         }

@@ -359,39 +359,41 @@ function checkClickableGoals(card, colors) {
         }
     }
 
-    // Display Clickable Goals on Card
-    for (let i = 0; i < 25; i++) {
-        let slot = document.getElementById(`slot${i + 1}`);
-        let clickable = clickableGoals[Math.floor(i / 5)][i % 5];
-        if (clickable !== EMPTY) {
-            let newClasses = clickable.trim().split(" ");
-            let newContainer = document.createElement("div");
-            newContainer.setAttribute("class", "circle-container");
-            newContainer.setAttribute("id", `slot${i + 1}_highlight`);
+    if (indicatorsRules.enabled) {
+        // Display Clickable Goals on Card
+        for (let i = 0; i < 25; i++) {
+            let slot = document.getElementById(`slot${i + 1}`);
+            let clickable = clickableGoals[Math.floor(i / 5)][i % 5];
+            if (clickable !== EMPTY) {
+                let newClasses = clickable.trim().split(" ");
+                let newContainer = document.createElement("div");
+                newContainer.setAttribute("class", "circle-container");
+                newContainer.setAttribute("id", `slot${i + 1}_highlight`);
 
-            for (let className of newClasses) {
-                let newChild = document.createElement("div");
-                let mistake = false;
-                if (className.includes("mistake")) {
-                    className = className.substr(0, className.indexOf("-mistake"));
-                    mistake = true;
+                for (let className of newClasses) {
+                    let newChild = document.createElement("div");
+                    let mistake = false;
+                    if (className.includes("mistake")) {
+                        className = className.substr(0, className.indexOf("-mistake"));
+                        mistake = true;
+                    }
+                    const corner = colors.indexOf(className) === 0 ? "first" : "second";
+
+                    let right = colors.indexOf(className) === 1;
+
+                    if (right && newClasses.length < 2) {
+                        newContainer.appendChild(document.createElement("div"));
+                    }
+
+                    newChild.setAttribute("class", `${mistake ?
+                        (indicatorsRules.players[right ? 1 : 0].mistake ? "mistake" : "") :
+                        (indicatorsRules.players[right ? 1 : 0].clickable ? `circle ${className}` : "")} ${corner}`);
+                    // Create new Element with class
+                    newContainer.appendChild(newChild);
                 }
-                const corner = colors.indexOf(className) === 0 ? "first" : "second";
 
-                let right = colors.indexOf(className) === 1;
-
-                if (right && newClasses.length < 2) {
-                    newContainer.appendChild(document.createElement("div"));
-                }
-
-                newChild.setAttribute("class", `${mistake ?
-                    (indicatorsRules.players[right ? 1 : 0].mistake ? "mistake" : "") :
-                    (indicatorsRules.players[right ? 1 : 0].clickable ? "circle" : "")} ${className} ${corner}`);
-                // Create new Element with class
-                newContainer.appendChild(newChild);
+                slot.insertBefore(newContainer, getElementChildByClassName(slot, "text-container"));
             }
-
-            slot.insertBefore(newContainer, getElementChildByClassName(slot, "text-container"));
         }
     }
 }

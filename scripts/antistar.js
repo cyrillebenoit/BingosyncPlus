@@ -39,8 +39,6 @@ function addAntiStarHandlers() {
                     true,
                 ];
 
-                console.log(enabledModes)
-
                 let mode = (antistar.antiMode + 1) % 4;
                 while (!enabledModes[mode]) {
                     mode = (mode + 1) % 4;
@@ -86,6 +84,10 @@ function addAntiStarHandlers() {
             //Make sure the correct effect is in use
             const antistar = document.getElementById(`antistar_${i}`);
             const textContainer = document.getElementById(`slot${i}`);
+
+            if (textContainer.rclocked === '1') {
+                continue;
+            }
 
             const mode = antistar.antiMode === undefined ? 3 : antistar.antiMode;
 

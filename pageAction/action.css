@@ -38,3 +38,7 @@
     justify-content: space-between;
     padding: 5px 4px;
 }
+
+.format-title {
+    font-size: 18px;
+}
