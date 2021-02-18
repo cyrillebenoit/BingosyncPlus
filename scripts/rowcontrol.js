@@ -68,9 +68,9 @@ function setScore(color, score) {
 
             if (enableRC) {
                 getElementChildByClassName(child, 'squarecounter').style.display = 'none';
-                getElementChildByClassName(child, 'bsp_rowcounter').style.display = 'block';
+                getElementChildByClassName(child, 'bsp_rowcounter').style.display = 'inline';
             } else {
-                getElementChildByClassName(child, 'squarecounter').style.display = 'block';
+                getElementChildByClassName(child, 'squarecounter').style.display = 'inline';
                 getElementChildByClassName(child, 'bsp_rowcounter').style.display = 'none';
 
             }
