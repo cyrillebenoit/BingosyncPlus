@@ -135,4 +135,3 @@ document.getElementById("format_tab_button").addEventListener("click", () => sho
 document.getElementById("settings1").addEventListener("click", openSettings)
 document.getElementById("settings2").addEventListener("click", openSettings)
 document.getElementById("settings3").addEventListener("click", openSettings)
-document.getElementById("settings4").addEventListener("click", openSettings)
