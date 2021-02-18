@@ -89,12 +89,12 @@ function handleRCconfig(config) {
     checkRows();
 }
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         handleRCconfig(message.config);
     }
 });
 
-browser.runtime.sendMessage({type: "request", content: 'config'}).then(handleRCconfig)
+chrome.runtime.sendMessage({type: "request", content: 'config'}, handleRCconfig)
 
 console.log("Draft module loaded")

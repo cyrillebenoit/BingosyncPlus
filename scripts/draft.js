@@ -97,12 +97,12 @@ function handleConfigDraft(config) {
     updateDraft();
 }
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         handleConfigDraft(message.config);
     }
 });
 
-browser.runtime.sendMessage({type: "request", content: 'config'}).then(handleConfigDraft)
+chrome.runtime.sendMessage({type: "request", content: 'config'}, handleConfigDraft)
 
 console.log("Draft module loaded")
