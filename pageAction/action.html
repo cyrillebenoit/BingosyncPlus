@@ -9,15 +9,14 @@
     <title>Bingosync+ Settings</title>
 </head>
 <body>
-<div class="row" style="width: 500px;">
+<div class="row" style="width: 480px">
     <div class="col s12">
         <ul class="tabs">
             <li class="tab col s3"><a class="active" id="theming_tab_button" href="#theming">Theming</a></li>
             <li class="tab col s3"><a class="inactive" id="ordering_tab_button" href="#ordering">Move Goals</a></li>
             <li class="tab col s3"><a class="inactive" id="translation_tab_button" href="#translation">Translation</a>
             </li>
-            <li class="tab col s3"><a class="inactive" id="invasion_tab_button" href="#invasion">Invasion</a></li>
-            <li class="tab col s3"><a class="inactive" id="clue_tab_button" href="#clue">Clue</a></li>
+            <li class="tab col s3"><a class="inactive" id="format_tab_button" href="#format">Format</a></li>
         </ul>
     </div>
     <div id="theming" class="col s12">
@@ -79,41 +78,60 @@
             Setup both lists on the settings page for this to work!
         </div>
     </div>
-    <div id="invasion" class="col s12" hidden>
-        <div class="mini">
-            <!-- Checkbox P1 potential + mistakes -->
-            <div class="settings-block">
-                <div class="settings-name">
-                    Left Side
-                </div>
+    <div id="format" class="col s12" hidden>
+        <div class="settings-row">
+            <div class="format-title" style="flex: 1;">Invasion</div>
 
-                <div class="settings-row">
-                    <label>
-                        <input id="p1c" class="trigger" type="checkbox"/>
-                        <span>Clickables</span>
-                    </label>
-                    <label>
-                        <input id="p1m" class="trigger" type="checkbox"/>
-                        <span>Mistakes</span>
-                    </label>
-                </div>
+            <div class="switch" style="flex: 4;">
+                <label>
+                    Off
+                    <input id="enable-invasion" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
             </div>
+        </div>
 
-            <!-- Checkbox P2 potential + mistakes -->
-            <div class="settings-block">
-                <div class="settings-name">
-                    Right Side
+        <div id="invasion-settings">
+            <div class="settings-row">
+                <!-- Checkbox P1 potential + mistakes -->
+                <div class="settings-block" style="width: 200px">
+                    <div class="settings-name">
+                        Left Side
+                    </div>
+
+                    <div style="padding-left: 4px">
+                        <label>
+                            <input id="p1c" class="trigger" type="checkbox"/>
+                            <span>Clickables</span>
+                        </label>
+                    </div>
+                    <div style="padding-left: 4px">
+                        <label>
+                            <input id="p1m" class="trigger" type="checkbox"/>
+                            <span>Mistakes</span>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="settings-row">
-                    <label>
-                        <input id="p2c" class="trigger" type="checkbox"/>
-                        <span>Clickables</span>
-                    </label>
-                    <label>
-                        <input id="p2m" class="trigger" type="checkbox"/>
-                        <span>Mistakes</span>
-                    </label>
+                <!-- Checkbox P2 potential + mistakes -->
+                <div class="settings-block" style="width: 200px">
+                    <div class="settings-name">
+                        Right Side
+                    </div>
+
+                    <div style="padding-left: 4px">
+                        <label>
+                            <input id="p2c" class="trigger" type="checkbox"/>
+                            <span>Clickables</span>
+                        </label>
+                    </div>
+                    <div style="padding-left: 4px">
+                        <label>
+                            <input id="p2m" class="trigger" type="checkbox"/>
+                            <span>Mistakes</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -131,13 +149,113 @@
                         Yes
                     </label>
                 </div>
-
             </div>
         </div>
-    </div>
-    <div id="clue" class="col s12" hidden>
-        <form class="my-column mini">
-            <div class="switch settings-row">
+
+        <div class="settings-row">
+            <div class="format-title" style="flex: 1;">Draft</div>
+
+            <div class="switch settings-row" style="flex: 4;">
+                <label>
+                    Off
+                    <input id="enable-draft" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+        </div>
+
+        <div id="draft-settings">
+            <!-- Draft P1 -->
+            <div class="settings-row">
+                <label for="draft-from-1">
+                    Player 1 Draft Color
+                </label>
+                <label for="draft-to-1">
+                    Player 1 Main Color
+                </label>
+            </div>
+            <div class="settings-row">
+                <select id="draft-from-1" class="trigger" style="display: inline; width: 40%; font-size: 12pt;">
+                    <option value="orange" selected>Orange</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    <option value="navy">Navy</option>
+                    <option value="teal">Teal</option>
+                    <option value="brown">Brown</option>
+                    <option value="pink">Pink</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+                <select id="draft-to-1" class="trigger" style="display: inline; width: 40%; font-size: 12pt;">
+                    <option value="orange" selected>Orange</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    <option value="navy">Navy</option>
+                    <option value="teal">Teal</option>
+                    <option value="brown">Brown</option>
+                    <option value="pink">Pink</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+            </div>
+
+            <!-- Draft P2 -->
+            <div class="settings-row">
+                <label for="draft-from-2">
+                    Player 2 Draft Color
+                </label>
+                <label for="draft-to-2">
+                    Player 2 Main Color
+                </label>
+            </div>
+            <div class="settings-row">
+                <select id="draft-from-2" class="trigger" style="display: inline; width: 40%; font-size: 12pt;">
+                    <option value="orange" selected>Orange</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    <option value="navy">Navy</option>
+                    <option value="teal">Teal</option>
+                    <option value="brown">Brown</option>
+                    <option value="pink">Pink</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+                <select id="draft-to-2" class="trigger" style="display: inline; width: 40%; font-size: 12pt;">
+                    <option value="orange" selected>Orange</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    <option value="navy">Navy</option>
+                    <option value="teal">Teal</option>
+                    <option value="brown">Brown</option>
+                    <option value="pink">Pink</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="format-title" style="flex: 1;">Row Control</div>
+
+            <div class="switch settings-row" style="flex: 4;">
+                <label>
+                    Off
+                    <input id="enable-row-control" class="trigger" type="checkbox">
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-row">
+            <div class="format-title" style="flex: 1;">Clue</div>
+
+            <div class="switch settings-row" style="flex: 4;">
                 <label>
                     Off
                     <input id="enableClue" class="trigger" type="checkbox">
@@ -145,13 +263,10 @@
                     On
                 </label>
             </div>
+        </div>
 
-            <div style="padding-top: 16px">
-                <a id="settings4" class="waves-effect waves-light btn">open settings</a>
-            </div>
-        </form>
         <div class="important">
-            Setup the main list on the settings page for this to work!
+            Setup the main list on the settings page for Clue to work!
         </div>
     </div>
 </div>

@@ -56,6 +56,7 @@ function apply(theme) {
         css += `.${color}square {background-image: linear-gradient(${theme.colors[color]["top"]} 60%, ${theme.colors[color]["bottom"]}) !important;} `;
         css += `.${color} {border-color: ${theme.colors[color]["top"]} !important;} `;
         css += `.${color}player {color: ${theme.colors[color]["top"]} !important;} `;
+        css += `.${color}draft {border-color: transparent ${theme.colors[color]["top"]} transparent transparent !important;} `;
     }
 
     const fontFamily = theme.font;
@@ -70,7 +71,7 @@ function apply(theme) {
 }
 
 function updateTheme(theme) {
-    if (theme === undefined) {
+    if (theme === undefined || theme === null) {
         apply(defaultTheme);
     } else {
         apply(theme)

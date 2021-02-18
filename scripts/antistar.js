@@ -86,6 +86,10 @@ function addAntiStarHandlers() {
             const antistar = document.getElementById(`antistar_${i}`);
             const textContainer = document.getElementById(`slot${i}`);
 
+            if (textContainer.rclocked === '1') {
+                continue;
+            }
+
             const mode = antistar.antiMode === undefined ? 3 : antistar.antiMode;
 
             // undo anti effect and apply new effect
