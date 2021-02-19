@@ -37,7 +37,8 @@ function formatDuration(diff, trimHours, trimDecimals) {
 
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
-    return `${trimHours && hours === 0 ? '' : `${hours}:`}${minutes}:${seconds}${trimDecimals ? '' : `.${decimals}`}`;
+    // ${trimDecimals ? '' : `.${decimals}`}
+    return `${trimHours && hours === 0 ? '' : `${hours}:`}${minutes}:${seconds}`;
 }
 
 function getShowTime() {
@@ -54,8 +55,8 @@ function getShowTime() {
 
 function startTimer(start) {
     if (!timerInfo.running) {
-        timerInfo.start = start || Date.now();
-        timerInfo.tInterval = setInterval(getShowTime, 50);
+        timerInfo.start = start;
+        timerInfo.tInterval = setInterval(getShowTime, 250);
         timerInfo.paused = false;
         timerInfo.running = true;
         document.getElementById(timerElementId).className = 'running';
@@ -69,9 +70,7 @@ function startTimer(start) {
 }
 
 function pauseTimer() {
-    if (!timerInfo.difference) {
-        // if timer never started, don't allow pause button to do anything
-    } else if (!timerInfo.paused) {
+    if (timerInfo.running && !timerInfo.paused) {
         clearInterval(timerInfo.tInterval);
         timerInfo.saved = timerInfo.difference;
         timerInfo.running = false;
@@ -106,16 +105,17 @@ function handleTimerEvent() {
     }
     // Check for start before page load
     if (timerInfo.start === 0) {
-        if(!checkStatusOnLoad()) {
+        console.log("checking chat for former load")
+        if (!checkStatusOnLoad()) {
             const timerElement = document.getElementById(timerElementId);
-            timerElement.innerText = "00:00.0";
+            timerElement.innerText = "00:00";
         }
     }
-    const lastMessage = chatBody.lastChild.lastChild.lastChild.innerText;
+    const lastMessage = chatBody.lastChild.lastChild;
 
-    switch (lastMessage.toLowerCase()) {
+    switch (lastMessage.lastChild.innerText.toLowerCase()) {
         case timerStartWord:
-            startTimer();
+            startTimer(getRecentDate(getElementChildByClassName(lastMessage, "chat-timestamp").innerText));
             break;
         case timerPauseWord:
             pauseTimer();
@@ -181,10 +181,11 @@ function addTimestamps() {
             let goalTime = entry.firstChild.firstChild.innerText;
             let goalDate = getRecentDate(goalTime);
             let timestamp = document.createElement("div");
-            const displayTimestamp = goalDate - timerInfo.start + timerInfo.saved >= 0;
-            timestamp.innerText = displayTimestamp ? `${formatDuration(goalDate - timerInfo.start + timerInfo.saved, true, true)}` : '';
+            const time = goalDate - timerInfo.start + (timerInfo.paused ? 0 : timerInfo.saved);
+            const displayTimestamp = time >= 0;
+            timestamp.innerText = displayTimestamp ? `${formatDuration(time, true, true)}` : '';
             timestamp.className = 'bsp-timestamp';
-            if(!displayTimestamp) {
+            if (!displayTimestamp) {
                 timestamp.style.marginRight = '0';
             }
             entry.firstChild.insertBefore(timestamp, entry.firstElementChild.children[0]);
