@@ -1,5 +1,15 @@
-const bspScreenshotImageId = 'bsp-screenshot-image';
 const bspScreenshotButtonId = "bsp-screenshot-button";
+
+function sendTextMessage(text) {
+    if (document.getElementsByClassName("chat-input").length > 0) {
+        document.getElementsByClassName("chat-input")[0].value = text;
+        const sendMessageButton = document.getElementsByClassName("chat-send")[0];
+
+        const evObj = document.createEvent('Events');
+        evObj.initEvent('click', true, false);
+        sendMessageButton.dispatchEvent(evObj);
+    }
+}
 
 function getElementChildByClassName(element, className) {
     let child = null;
@@ -44,15 +54,7 @@ function dumpBoardToClipboard() {
                 type: "fileToClip",
                 blob: blob
             }).then(copied => {
-                if (!copied) {
-                    const objectURL = URL.createObjectURL(blob);
-                    const screenshotImage = document.getElementById(bspScreenshotImageId);
-                    if (screenshotImage) {
-                        screenshotImage.onload(() => URL.revokeObjectURL(this.src));
-                        screenshotImage.src = objectURL;
-                        screenshotImage.className = "";
-                    }
-                } else {
+                if (copied) {
                     screenshotButton.innerText = "Copied!";
                     setTimeout(() => screenshotButton.innerText = "Screenshot", 2500);
                 }
@@ -74,8 +76,9 @@ function toggleView() {
 function ensureBingosyncPlusSettingsBox() {
     let buttonBox = document.getElementById('bingosync-plus-settings-box');
     if (!buttonBox) {
-        // This is very cursed.
-        // Since there's no ID and no classnames sometimes, we have to navigate this way.
+        // collapse chat settings
+        document.getElementById("chat-settings").lastElementChild.style.display = 'none';
+
         let settingsContainer = document.getElementById('room-settings-container').parentElement;
         let snippet = document.createElement('template');
         snippet.innerHTML = `<div class="flex-col-footer">
@@ -150,17 +153,6 @@ if (buttonBox) {
         screenshotButton.innerText = "Screenshot";
         screenshotButton.onclick = dumpBoardToClipboard;
         buttonBox.appendChild(screenshotButton);
-    }
-
-
-    if (!document.getElementById(bspScreenshotImageId)) {
-        const bspScreenshotImage = document.createElement("img");
-        bspScreenshotImage.id = bspScreenshotImageId;
-        bspScreenshotImage.setAttribute("height", '60px');
-        bspScreenshotImage.setAttribute("width", '60px');
-        bspScreenshotImage.style = "margin-top: 2px; border: 1px solid #202020";
-        bspScreenshotImage.className = "hidden";
-        buttonBox.appendChild(bspScreenshotImage)
     }
 }
 

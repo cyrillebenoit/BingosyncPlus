@@ -104,6 +104,9 @@ function openSettings() {
 document.addEventListener("DOMContentLoaded", restoreOptions);
 document.querySelectorAll(".trigger").forEach(el => el.addEventListener("click", sendConfig));
 
+handleSettingsAction("invasion-settings", false);
+handleSettingsAction("draft-settings", false);
+
 function showTab(tab) {
     const tabs = ['format', 'ordering', 'theming', 'translation'];
     let toHide = tabs.filter(el => el !== tab);

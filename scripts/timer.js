@@ -5,11 +5,16 @@ let timerInfo = {
     paused: false,
     difference: 0,
     start: 0,
-    saved: 0
+    saved: 0,
+    inCountdown: false
 }
-const timerStartWord = '1';
+const timerStartWord = 'go!';
 const timerPauseWord = 'pause';
 const timerEndWord = 'gg';
+const timerCountdownId = 'bsp-timer-buttons-container';
+const startButtonId = 'bsp-timer-button-start';
+const pauseButtonId = 'bsp-timer-button-pause';
+const stopButtonId = 'bsp-timer-button-stop';
 const timerElementId = 'bsp-timer-element';
 
 function createTimerElement() {
@@ -25,9 +30,78 @@ function createTimerElement() {
         brother.parentElement.appendChild(container);
         container.appendChild(brother);
     }
+    // check if countdown button exists
+    if (!document.getElementById(timerCountdownId)) {
+        const timerContainer = document.createElement("div");
+        timerContainer.id = timerCountdownId;
+
+        const firstElement = document.createElement("div");
+        firstElement.innerText = "Timer:";
+        firstElement.style.fontWeight = 'bold';
+
+        const startButton = document.createElement("div");
+        startButton.id = startButtonId;
+        startButton.innerText = "Start";
+        startButton.className = 'btn btn-default';
+        startButton.onclick = () => {
+            if (timerInfo.running || timerInfo.inCountdown) {
+                return;
+            }
+            timerInfo.inCountdown = true;
+            countdown();
+        }
+
+        const pauseButton = document.createElement("div");
+        pauseButton.id = pauseButtonId;
+        pauseButton.innerText = "Pause";
+        pauseButton.className = 'btn btn-default';
+        pauseButton.style.display = 'none';
+        pauseButton.onclick = () => {
+            if (!timerInfo.running && !timerInfo.paused) {
+                return;
+            }
+            sendTextMessage(timerPauseWord);
+        }
+
+        const resetButton = document.createElement("div");
+        resetButton.innerText = "Stop";
+        resetButton.id = stopButtonId;
+        resetButton.className = 'btn btn-default';
+        resetButton.style.display = 'none';
+        resetButton.onclick = () => {
+            sendTextMessage(timerEndWord);
+        }
+
+        timerContainer.appendChild(firstElement)
+
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.style.display = 'flex';
+        buttonsContainer.style.justifyContent = 'space-around';
+
+        buttonsContainer.appendChild(startButton);
+        buttonsContainer.appendChild(pauseButton);
+        buttonsContainer.appendChild(resetButton);
+
+        timerContainer.appendChild(buttonsContainer);
+
+        const lastElementChild = document.getElementById("room-settings").lastElementChild;
+        lastElementChild.insertBefore(timerContainer, lastElementChild.lastElementChild);
+    }
 }
 
 createTimerElement();
+
+function countdown() {
+    const offset = 100;
+    const difference = 950;
+    setTimeout(() => sendTextMessage(`Starting on ${timerStartWord.toUpperCase()}`), offset);
+    setTimeout(() => sendTextMessage("Starting in 5..."), offset + difference);
+    setTimeout(() => sendTextMessage("Starting in 4..."), offset + 2 * difference);
+    setTimeout(() => sendTextMessage("Starting in 3..."), offset + 3 * difference);
+    setTimeout(() => sendTextMessage("Starting in 2..."), offset + 4 * difference);
+    setTimeout(() => sendTextMessage("Starting in 1..."), offset + 5 * difference);
+    setTimeout(() => sendTextMessage(timerStartWord.toUpperCase()), offset + 6 * difference);
+}
 
 function formatDuration(diff, trimHours, trimDecimals) {
     let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -55,8 +129,13 @@ function getShowTime() {
 
 function startTimer(start) {
     if (!timerInfo.running) {
+        if (document.getElementById(startButtonId)) document.getElementById(startButtonId).style.display = 'none';
+        if (document.getElementById(pauseButtonId)) document.getElementById(pauseButtonId).style.display = 'block';
+        if (document.getElementById(stopButtonId)) document.getElementById(stopButtonId).style.display = 'block';
+
         timerInfo.start = start;
         timerInfo.tInterval = setInterval(getShowTime, 250);
+        timerInfo.inCountdown = false;
         timerInfo.paused = false;
         timerInfo.running = true;
         document.getElementById(timerElementId).className = 'running';
@@ -71,6 +150,10 @@ function startTimer(start) {
 
 function pauseTimer() {
     if (timerInfo.running && !timerInfo.paused) {
+        if (document.getElementById(startButtonId)) document.getElementById(startButtonId).style.display = 'block';
+        if (document.getElementById(pauseButtonId)) document.getElementById(pauseButtonId).style.display = 'none';
+        if (document.getElementById(stopButtonId)) document.getElementById(stopButtonId).style.display = 'block';
+
         clearInterval(timerInfo.tInterval);
         timerInfo.saved = timerInfo.difference;
         timerInfo.running = false;
@@ -89,11 +172,16 @@ function pauseTimer() {
 }
 
 function stopTimer() {
+    if (document.getElementById(startButtonId)) document.getElementById(startButtonId).style.display = 'block';
+    if (document.getElementById(pauseButtonId)) document.getElementById(pauseButtonId).style.display = 'none';
+    if (document.getElementById(stopButtonId)) document.getElementById(stopButtonId).style.display = 'none';
+
     clearInterval(timerInfo.tInterval);
     timerInfo.saved = 0;
     timerInfo.difference = 0;
     timerInfo.paused = false;
     timerInfo.running = false;
+    timerInfo.inCountdown = false;
     document.getElementById(timerElementId).className = 'finished';
 }
 
@@ -103,14 +191,7 @@ function handleTimerEvent() {
     if (!chatBody?.lastChild?.lastChild?.lastChild?.innerText) {
         return;
     }
-    // Check for start before page load
-    if (timerInfo.start === 0) {
-        console.log("checking chat for former load")
-        if (!checkStatusOnLoad()) {
-            const timerElement = document.getElementById(timerElementId);
-            timerElement.innerText = "00:00";
-        }
-    }
+
     const lastMessage = chatBody.lastChild.lastChild;
 
     switch (lastMessage.lastChild.innerText.toLowerCase()) {
@@ -130,7 +211,13 @@ new MutationObserver(handleTimerEvent).observe(document.getElementById("bingo-ch
     attributes: true,
     childList: true,
     subtree: true
-})
+});
+
+new MutationObserver(checkStatusOnLoad).observe(document.getElementsByClassName("chat-history")[0], {
+    attributes: true,
+    childList: true,
+    subtree: true
+});
 
 function getRecentDate(time) {
     let now = new Date();
@@ -149,19 +236,20 @@ function checkStatusOnLoad() {
             let element = chatBody.childNodes.item(i);
             if (element && element.className === 'chat-entry') {
                 let chatEntry = element.firstChild;
-                const command = chatEntry.lastChild.innerText;
+                const command = chatEntry.lastChild.innerText.toLowerCase();
                 if (!timerInfo.running && command === timerStartWord) {
                     let startTime = chatEntry.firstChild.innerText;
                     let startDate = getRecentDate(startTime);
                     startTimer(startDate);
-                    return true;
+                    return;
                 } else if (command === timerPauseWord || command === timerEndWord) {
-                    return false;
+                    break;
                 }
             }
         }
     }
-    return false;
+    const timerElement = document.getElementById(timerElementId);
+    timerElement.innerText = "00:00";
 }
 
 function addTimestamps() {
