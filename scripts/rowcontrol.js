@@ -4,6 +4,7 @@ function checkRows() {
 
     for(const counter of document.getElementsByClassName("rowcounter")) {
         counter.style.display = 'none';
+        counter.parentElement.style.width = '26px';
     }
 
     const colors = getPlayerColors();
