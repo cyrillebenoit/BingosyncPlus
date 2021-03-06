@@ -21,13 +21,13 @@ function applyBDraftConfig(config) {
     setupBDraft();
 }
 
-browser.runtime.onMessage.addListener(message => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.type === 'config') {
         applyBDraftConfig(message.config);
     }
 })
 
-browser.runtime.sendMessage({type: 'request', content: 'config'}).then(applyBDraftConfig);
+chrome.runtime.sendMessage({type: 'request', content: 'config'}, applyBDraftConfig);
 
 new MutationObserver(setupBDraft).observe(document.getElementById("bingo-chat"), {
     attributes: true,
