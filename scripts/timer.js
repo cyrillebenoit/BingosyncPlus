@@ -17,7 +17,7 @@ const pauseButtonId = 'bsp-timer-button-pause';
 const stopButtonId = 'bsp-timer-button-stop';
 const timerElementId = 'bsp-timer-element';
 
-function createTimerElement() {
+function ensureTimerElements() {
     // check if timer element doesn't exist
     if (!document.getElementById(timerElementId)) {
         const timerElement = document.createElement("div");
@@ -89,7 +89,7 @@ function createTimerElement() {
     }
 }
 
-createTimerElement();
+ensureTimerElements();
 
 function countdown() {
     const offset = 100;
@@ -186,6 +186,8 @@ function stopTimer() {
 }
 
 function handleTimerEvent() {
+    ensureTimerElements();
+
     let chatBody = document.getElementsByClassName("chat-body")[0];
     addTimestamps();
     if (!chatBody?.lastChild?.lastChild?.lastChild?.innerText) {

@@ -93,6 +93,7 @@ function isColorCode(value) {
 function updateCSS(color) {
     const card = document.getElementById(`${color}_card`);
     card.setAttribute("style", `background-image: linear-gradient(${temporary[color]["top"]} 60%, ${temporary[color]["bottom"]});`);
+    demo(color);
 }
 
 function updateColors(color, newColor) {
@@ -120,6 +121,7 @@ function saveColors(color) {
 
     const inUseFont = localStorage.getItem(keyFont);
 
+    document.getElementById("demo-slot").style.fontFamily = inUseFont;
     browser.runtime.sendMessage({
         type: "theme",
         theme: {
@@ -229,6 +231,7 @@ function saveFont() {
     // set timeout to remove div
     setTimeout(() => elementById.style.display = 'none', 2500);
 
+    document.getElementById("demo-slot").style.fontFamily = font;
     localStorage.setItem(keyFont, font);
     browser.runtime.sendMessage({
         type: "theme",
@@ -236,12 +239,20 @@ function saveFont() {
     });
 }
 
+function demo(color) {
+    let {top, bottom} = temporary[color]
+    document.getElementById("demo-slot").style.backgroundImage = `linear-gradient(${top} 60%, ${bottom})`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem(key)) {
         Object.assign(inUse, JSON.parse(localStorage.getItem(key)));
+        Object.assign(temporary, JSON.parse(localStorage.getItem(key)));
     }
     if (localStorage.getItem(keyFont)) {
-        document.getElementById('font').value = localStorage.getItem(keyFont);
+        const font = localStorage.getItem(keyFont);
+        document.getElementById("demo-slot").style.fontFamily = font;
+        document.getElementById('font').value = font;
     }
     if (localStorage.getItem(keyA)) {
         document.getElementById('url_a').value = localStorage.getItem(keyA);
@@ -252,9 +263,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let color of colorNames) {
         document.getElementById(`${color}_card`).setAttribute("style", `background-image: linear-gradient(${inUse[color]["top"]} 60%, ${inUse[color]["bottom"]});`);
-
+        document.getElementById(`${color}_card`).onmouseenter = () => demo(color);
         let top = document.getElementById(`${color}_top`);
         top.addEventListener('input', (e) => updateColors(color, e.target.value));
+        top.addEventListener("keyup", e =>  {
+            if (e.code === 'Enter') {
+                e.preventDefault();
+                document.getElementById(`${color}_save`).click();
+            }
+        });
         top.value = inUse[color]["top"];
 
         let save = document.getElementById(`${color}_save`);
@@ -269,7 +286,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.getElementById("save_load_button").addEventListener("click", toggleSaveLoad);
+    document.getElementById("font").addEventListener("keyup", e =>  {
+        if (e.code === 'Enter') {
+            e.preventDefault();
+            document.getElementById("font_button").click();
+        }
+    });
     document.getElementById("font_button").addEventListener("click", saveFont);
+    document.getElementById("url_a").addEventListener("keyup", e =>  {
+        if (e.code === 'Enter') {
+            e.preventDefault();
+            document.getElementById("load_listA").click();
+        }
+    });
+    document.getElementById("url_b").addEventListener("keyup", e =>  {
+        if (e.code === 'Enter') {
+            e.preventDefault();
+            document.getElementById("load_listB").click();
+        }
+    });
     document.getElementById(`load_listA`).addEventListener("click", () => testURL('A'));
     document.getElementById(`load_listB`).addEventListener("click", () => testURL('B'));
 

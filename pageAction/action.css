@@ -42,3 +42,18 @@
 .format-title {
     font-size: 18px;
 }
+
+.clickable-box {
+    user-select: none; /* standard syntax */
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -ms-user-select: none; /* IE10+ */
+    width: 100%;
+    padding: 4px 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.clickable-box:hover {
+    cursor: pointer;
+}

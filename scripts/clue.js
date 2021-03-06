@@ -161,10 +161,10 @@ function applyConfig(config) {
         return;
     }
 
-    if (config.clue !== enableClue) {
-        const message = `${config.clue ? "I just enabled Clue!" : "I just disabled Clue!"} (nonce: ${Date.now()})`;
-        sendTextMessage(message);
-    }
+    // if (config.clue !== enableClue) {
+    //     const message = `${config.clue ? "I just enabled Clue!" : "I just disabled Clue!"} (nonce: ${Date.now()})`;
+    //     sendTextMessage(message);
+    // }
 
     enableClue = config.clue;
     if (enableClue) {
