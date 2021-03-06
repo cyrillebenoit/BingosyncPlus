@@ -91,7 +91,7 @@ function ensureBingosyncPlusSettingsBox() {
             -
         </span>
         </div>
-        <div class="panel-body" style="overflow: hidden; display: block;">
+        <div class="panel-body" style="padding-bottom:5px;overflow: hidden; display: block;">
         <div style="line-height: 18px; font-size: 90%">
             <div class="checkbox m-b-s" style="margin-top: 0">
                 <label>
@@ -120,6 +120,9 @@ function ensureBingosyncPlusSettingsBox() {
         </div>
         <div id="bingosync-plus-settings-box" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         </div>
+        </div>
+        <div style="width:100%;text-align: right;font-size: 7pt; padding-right: 4px; color: #505050;">
+        v2.6.0
         </div>
         </div>
 
