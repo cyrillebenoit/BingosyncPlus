@@ -6,11 +6,12 @@ function setupBDraft() {
     for (let i = 1; i <= 25; i++) {
         const originalGoal = document.getElementById(`original_goal_${i}`);
         const translatedGoal = document.getElementById(`translated_goal_${i}`);
+        const isSelected = originalGoal.parentElement.title !== '';
         if (originalGoal) {
-            originalGoal.style.zIndex = bdraft ? '-1' : '0';
+            originalGoal.style.zIndex = bdraft && !isSelected ? '-1' : '0';
         }
         if (translatedGoal) {
-            translatedGoal.style.zIndex = bdraft ? '-1' : '0';
+            translatedGoal.style.zIndex = bdraft && !isSelected ? '-1' : '0';
         }
     }
 }

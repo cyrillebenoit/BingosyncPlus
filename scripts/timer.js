@@ -43,6 +43,7 @@ function ensureTimerElements() {
         startButton.id = startButtonId;
         startButton.innerText = "Start";
         startButton.className = 'btn btn-default';
+        startButton.style.display = timerInfo.running ? 'none' : 'block';
         startButton.onclick = () => {
             if (timerInfo.running || timerInfo.inCountdown) {
                 return;
@@ -51,11 +52,17 @@ function ensureTimerElements() {
             countdown();
         }
 
+        const boardCover = document.getElementsByClassName("board-cover")[0];
+        if (boardCover.classList.contains("fading")) {
+            boardCover.classList.remove('fading');
+            boardCover.firstElementChild.innerText = "Click to Reveal";
+        }
+
         const pauseButton = document.createElement("div");
         pauseButton.id = pauseButtonId;
         pauseButton.innerText = "Pause";
         pauseButton.className = 'btn btn-default';
-        pauseButton.style.display = 'none';
+        pauseButton.style.display = timerInfo.running ? 'block' : 'none';
         pauseButton.onclick = () => {
             if (!timerInfo.running && !timerInfo.paused) {
                 return;
@@ -67,7 +74,7 @@ function ensureTimerElements() {
         resetButton.innerText = "Stop";
         resetButton.id = stopButtonId;
         resetButton.className = 'btn btn-default';
-        resetButton.style.display = 'none';
+        resetButton.style.display = timerInfo.running ? 'block' : 'none';
         resetButton.onclick = () => {
             sendTextMessage(timerEndWord);
         }
@@ -159,13 +166,15 @@ function pauseTimer() {
         timerInfo.running = false;
         timerInfo.paused = true;
         document.getElementById(timerElementId).className = 'paused';
-        let boardCover = document.getElementsByClassName("board-cover")[0];
+        const boardCover = document.getElementsByClassName("board-cover")[0];
         boardCover.style = 'display: flex; z-index: 4;';
         boardCover.classList.add('fading');
         boardCover.onclick = () => {
-            boardCover.style = 'display:none; z-index: -1;';
             boardCover.onclick = undefined;
-            boardCover.style = 'display: none; z-index: -1;'
+            boardCover.style = 'display: none;';
+            boardCover.classList.remove("fading");
+            boardCover.firstElementChild.innerText = "Click to Reveal";
+
         }
         boardCover.firstElementChild.innerText = "Game is paused!";
     }
