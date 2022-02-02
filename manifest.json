@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "2.4.1",
-  "description": "Provides multiple improvements to Bingosync.com. Notably: Theming, Integrated Timer, Anti-stars, Translation, and more!",
+  "version": "2.4.2",
+  "description": "Provides multiple improvements to Bingosync. Notably: Theming, Integrated Timer, Anti-stars, Translation, and more!",
   "icons": {
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
@@ -10,7 +10,8 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.bingosync.com/room/*"
+        "*://*.bingosync.com/room/*",
+		"*://*.bingosync.bingothon.com/room/*"
       ],
       "css": [
         "styles/antistar.css",
@@ -46,7 +47,8 @@
     "default_popup": "pageAction/action.html",
     "default_icon": "icons/icon-48.png",
     "show_matches": [
-      "*://*.bingosync.com/room/*"
+      "*://*.bingosync.com/room/*",
+	  "*://*.bingosync.bingothon.com/room/*"
     ]
   },
   "permissions": [
