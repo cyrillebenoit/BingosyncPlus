@@ -2,7 +2,7 @@ let config = localStorage.getItem("bsp_config");
 
 function updateTabs(message) {
     chrome.tabs.query({
-        url: '*://*.bingosync.com/room/*'
+        url: '*://*.bingosync.*/room/*'
     }, tabs => {
         for (const tab of tabs) {
             chrome.tabs.sendMessage(tab.id, message);

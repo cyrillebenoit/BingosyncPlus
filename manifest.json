@@ -16,7 +16,8 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.bingosync.com/room/*"
+        "*://*.bingosync.com/room/*",
+		"*://*.bingosync.bingothon.com/room/*"
       ],
       "css": [
         "styles/antistar.css",
@@ -47,7 +48,8 @@
     "default_popup": "pageAction/action.html",
     "default_icon": "icons/48.png",
     "show_matches": [
-      "*://*.bingosync.com/room/*"
+      "*://*.bingosync.com/room/*",
+	  "*://*.bingosync.bingothon.com/room/*"
     ]
   },
   "permissions": [
