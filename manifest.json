@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Bingosync+",
-  "version": "2.4.1",
+  "version": "2.6.1",
   "description": "Provides multiple improvements to Bingosync.com. Notably: Theming, Integrated Timer, Anti-stars, Translation, and more!",
   "icons": {
     "48": "icons/48.png",
@@ -28,6 +28,7 @@
       "js": [
         "scripts/loadLists.js",
         "scripts/antistar.js",
+        "scripts/blinddraft.js",
         "scripts/clue.js",
         "scripts/draft.js",
         "scripts/rowcontrol.js",
