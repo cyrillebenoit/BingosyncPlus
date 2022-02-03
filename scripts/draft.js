@@ -9,6 +9,15 @@ let draft = {
     }]
 };
 
+const backupStyles = new Array(25);
+
+function saveStyle(slot, color, style) {
+    if (!backupStyles[slot]) {
+        backupStyles[slot] = {};
+    }
+    backupStyles[slot][color] = style.transform;
+}
+
 function seekAndHide(color) {
     const found = [];
     for (let i = 1; i <= 25; i++) {
@@ -16,11 +25,14 @@ function seekAndHide(color) {
         let colorChild = getElementChildByClassName(slot, `bg-color`);
         if (colorChild) {
             while (colorChild.className.includes("bg-color")) {
+                const squareColor = colorChild.className.substring(colorChild.className.indexOf(" ") + 1, colorChild.className.indexOf("square"));
+                if (colorChild.style.transform !== '' && colorChild.style.display !== 'none') {
+                    saveStyle(i - 1, squareColor, colorChild.style);
+                }
                 if (colorChild.className.includes(`${color}square`)) {
                     found.push(i);
                     colorChild.style.display = 'none';
                 } else {
-                    colorChild.backupTransform = color.style;
                     colorChild.style.transform = '';
                 }
                 colorChild = colorChild.nextElementSibling;
@@ -36,10 +48,11 @@ function updateDraft() {
         let colorChild = getElementChildByClassName(slot, "bg-color");
         if (colorChild) {
             while (colorChild.className.includes('bg-color')) {
-                if(colorChild.backupTransform) {
-                    colorChild.style = colorChild.backupTransform;
-                } else {
-                    colorChild.style = '';
+                const color = colorChild.className.substring(colorChild.className.indexOf(" ") + 1, colorChild.className.indexOf("square"));
+                colorChild.style.display = 'block';
+                if (backupStyles[i - 1] && backupStyles[i - 1][color]) {
+                    colorChild.style.transform = backupStyles[i - 1][color];
+                    delete backupStyles[i - 1][color];
                 }
                 colorChild = colorChild.nextElementSibling;
             }

@@ -11,10 +11,21 @@
  */
 const key = 'bsp_settings';
 
+const ON = 'rgb(215,255,237)';
+const OFF = 'rgb(255,255,255)';
+
+const formats = {
+    invasion: false,
+    draft: false,
+    rc: false,
+    clue: false,
+    bdraft: false
+}
+
 function sendConfig() {
     const config = {
         invasion: {
-            enabled: document.querySelector("#enable-invasion").checked,
+            enabled: formats.invasion,
             players: [{
                 clickable: document.querySelector("#p1c").checked,
                 mistake: document.querySelector("#p1m").checked
@@ -25,17 +36,18 @@ function sendConfig() {
             swap: document.querySelector("#swap").checked,
         },
         draft: {
-            enabled: document.querySelector("#enable-draft").checked,
+            enabled: formats.draft,
             players: [{
                 from: document.querySelector("#draft-from-1").value,
                 to: document.querySelector("#draft-to-1").value,
-            },{
+            }, {
                 from: document.querySelector("#draft-from-2").value,
                 to: document.querySelector("#draft-to-2").value,
             },]
         },
-        rowControl: document.querySelector("#enable-row-control").checked,
-        clue: document.querySelector("#enableClue").checked,
+        rowControl: formats.rc,
+        bdraft: formats.bdraft,
+        clue: formats.clue,
         ordering: (document.getElementById("orderingMode0").checked ? 0
             : document.getElementById("orderingMode1").checked ? 1 : 2), // 0 -> none, 1 -> sort, 2 -> transpose
         translation: document.querySelector("#enableTranslation").checked,
@@ -50,15 +62,41 @@ function sendConfig() {
     });
 }
 
+function toggleSetting(id, name) {
+    formats[name] = !formats[name];
+    document.getElementById(id).style.backgroundColor = formats[name] ? ON : OFF;
+    sendConfig();
+    if (name === 'clue' && formats[name]) {
+        document.getElementById("clue-warning").style.display = 'block';
+        setTimeout(() => document.getElementById("clue-warning").style.display = 'none', 2000);
+    }
+}
+
 function restoreOptions() {
+    function setupBox(id, name, value) {
+        document.getElementById(id).addEventListener("click", () => toggleSetting(id, name));
+        document.getElementById(id).style.backgroundColor = value ? ON : OFF;
+        formats[name] = value;
+    }
+
     let config = JSON.parse(localStorage.getItem(key));
     if (!config) {
+        setupBox("invasion-box", "invasion", false);
+        setupBox("draft-box", "draft", false);
+        setupBox("rc-box", "rc", false);
+        setupBox("bdraft-box", "bdraft", false);
+        setupBox("clue-box", "clue", false);
+
         return;
     }
-    let {invasion, translation, ordering, rowControl, clue, draft, theming} = config;
-    document.querySelector("#enable-draft").checked = draft && draft.enabled;
-    document.querySelector("#enable-row-control").checked = rowControl;
-    document.querySelector("#enable-invasion").checked = invasion && invasion.enabled;
+    let {invasion, translation, ordering, rowControl, clue, draft, bdraft, theming} = config;
+
+    setupBox("invasion-box", "invasion", invasion && invasion.enabled);
+    setupBox("draft-box", "draft", draft && draft.enabled);
+    setupBox("rc-box", "rc", rowControl);
+    setupBox("bdraft-box", "bdraft", bdraft);
+    setupBox("clue-box", "clue", clue);
+
     handleSettingsAction("invasion-settings", invasion && invasion.enabled);
     handleSettingsAction("draft-settings", draft && draft.enabled);
     document.querySelector("#p1c").checked = invasion.players[0].clickable;
@@ -86,7 +124,6 @@ function restoreOptions() {
         document.getElementById("orderingMode2").checked = true;
     }
     document.querySelector("#enableTranslation").checked = translation;
-    document.querySelector("#enableClue").checked = clue;
 
     browser.runtime.sendMessage({
         type: 'config',
@@ -103,6 +140,9 @@ function openSettings() {
 
 document.addEventListener("DOMContentLoaded", restoreOptions);
 document.querySelectorAll(".trigger").forEach(el => el.addEventListener("click", sendConfig));
+
+handleSettingsAction("invasion-settings", false);
+handleSettingsAction("draft-settings", false);
 
 function showTab(tab) {
     const tabs = ['format', 'ordering', 'theming', 'translation'];
@@ -121,12 +161,13 @@ function showTab(tab) {
 
 function handleSettingsAction(name, state) {
     const settingsBlock = document.getElementById(name);
+    settingsBlock.style.height = state ? '100%' : '0';
     const UNUSED = 'rgb(111, 111, 111)';
     settingsBlock.style.backgroundColor = state ? 'white' : UNUSED;
 }
 
-document.getElementById("enable-invasion").addEventListener("click", e => handleSettingsAction("invasion-settings", e.target.checked))
-document.getElementById("enable-draft").addEventListener("click", e => handleSettingsAction("draft-settings", e.target.checked))
+document.getElementById("invasion-box").addEventListener("click", () => handleSettingsAction("invasion-settings", !formats.invasion))
+document.getElementById("draft-box").addEventListener("click", () => handleSettingsAction("draft-settings", !formats.draft))
 document.getElementById("theming_tab_button").addEventListener("click", () => showTab('theming'));
 document.getElementById("ordering_tab_button").addEventListener("click", () => showTab('ordering'));
 document.getElementById("translation_tab_button").addEventListener("click", () => showTab('translation'));

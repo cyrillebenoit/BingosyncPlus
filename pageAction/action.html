@@ -80,24 +80,15 @@
     </div>
     <div id="format" class="col s12" hidden>
         <div class="settings-row">
-            <div class="format-title" style="flex: 1;">Invasion</div>
-
-            <div class="switch" style="flex: 4;">
-                <label>
-                    Off
-                    <input id="enable-invasion" class="trigger" type="checkbox">
-                    <span class="lever"></span>
-                    On
-                </label>
-            </div>
+            <div id="invasion-box" class="clickable-box">Invasion</div>
         </div>
 
-        <div id="invasion-settings">
+        <div id="invasion-settings" style="overflow: hidden">
             <div class="settings-row">
                 <!-- Checkbox P1 potential + mistakes -->
                 <div class="settings-block" style="width: 200px">
-                    <div class="settings-name">
-                        Left Side
+                    <div class="settings-name" style="text-align: center">
+                        Player One
                     </div>
 
                     <div style="padding-left: 4px">
@@ -116,8 +107,8 @@
 
                 <!-- Checkbox P2 potential + mistakes -->
                 <div class="settings-block" style="width: 200px">
-                    <div class="settings-name">
-                        Right Side
+                    <div class="settings-name" style="text-align: center">
+                        Player Two
                     </div>
 
                     <div style="padding-left: 4px">
@@ -153,19 +144,10 @@
         </div>
 
         <div class="settings-row">
-            <div class="format-title" style="flex: 1;">Draft</div>
-
-            <div class="switch settings-row" style="flex: 4;">
-                <label>
-                    Off
-                    <input id="enable-draft" class="trigger" type="checkbox">
-                    <span class="lever"></span>
-                    On
-                </label>
-            </div>
+            <div id="draft-box" class="clickable-box">Draft</div>
         </div>
 
-        <div id="draft-settings">
+        <div id="draft-settings" style="overflow: hidden">
             <!-- Draft P1 -->
             <div class="settings-row">
                 <label for="draft-from-1">
@@ -240,32 +222,15 @@
         </div>
 
         <div class="settings-row">
-            <div class="format-title" style="flex: 1;">Row Control</div>
-
-            <div class="switch settings-row" style="flex: 4;">
-                <label>
-                    Off
-                    <input id="enable-row-control" class="trigger" type="checkbox">
-                    <span class="lever"></span>
-                    On
-                </label>
-            </div>
+            <div id="rc-box" class="clickable-box">Row Control</div>
         </div>
 
         <div class="settings-row">
-            <div class="format-title" style="flex: 1;">Clue</div>
-
-            <div class="switch settings-row" style="flex: 4;">
-                <label>
-                    Off
-                    <input id="enableClue" class="trigger" type="checkbox">
-                    <span class="lever"></span>
-                    On
-                </label>
-            </div>
+            <div id="clue-box" class="clickable-box" style="width: 49%;">Clue</div>
+            <div id="bdraft-box" class="clickable-box" style="width: 49%">Blind Draft</div>
         </div>
 
-        <div class="important">
+        <div id="clue-warning" class="important" hidden>
             Setup the main list on the settings page for Clue to work!
         </div>
     </div>

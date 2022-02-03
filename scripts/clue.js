@@ -161,17 +161,10 @@ function applyConfig(config) {
         return;
     }
 
-    if (config.clue !== enableClue) {
-        const message = `${config.clue ? "I just enabled Clue!" : "I just disabled Clue!"} (nonce: ${Date.now()})`;
-        if (document.getElementsByClassName("chat-input").length > 0) {
-            document.getElementsByClassName("chat-input")[0].value = message;
-            const sendMessageButton = document.getElementsByClassName("chat-send")[0];
-
-            const evObj = document.createEvent('Events');
-            evObj.initEvent('click', true, false);
-            sendMessageButton.dispatchEvent(evObj);
-        }
-    }
+    // if (config.clue !== enableClue) {
+    //     const message = `${config.clue ? "I just enabled Clue!" : "I just disabled Clue!"} (nonce: ${Date.now()})`;
+    //     sendTextMessage(message);
+    // }
 
     enableClue = config.clue;
     if (enableClue) {

@@ -4,7 +4,7 @@
 // 2 -> Half Faded Text
 // 3 -> Transparent Text
 
-function addAntiStarHandlers() {
+function ensureAntistars() {
     for (let i = 1; i <= 25; i++) {
         // If there isn't a AntiStar div yet for that slot
         if (!document.getElementById(`antistar_${i}`)) {
@@ -118,7 +118,7 @@ function addAntiStarHandlers() {
     }
 }
 
-new MutationObserver(addAntiStarHandlers).observe(document.getElementById("bingo-chat"), {
+new MutationObserver(ensureAntistars).observe(document.getElementById("bingo-chat"), {
     attributes: true,
     childList: true,
     subtree: true
