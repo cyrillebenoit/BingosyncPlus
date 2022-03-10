@@ -2,7 +2,14 @@ let config = localStorage.getItem("bsp_config");
 
 function updateTabs(message) {
     chrome.tabs.query({
-        url: '*://*.bingosync.*/room/*'
+        url: '*://*.bingosync.com/room/*'
+    }, tabs => {
+        for (const tab of tabs) {
+            chrome.tabs.sendMessage(tab.id, message);
+        }
+    });
+    chrome.tabs.query({
+        url: '*://*.bingosync.bingothon.com/room/*'
     }, tabs => {
         for (const tab of tabs) {
             chrome.tabs.sendMessage(tab.id, message);
@@ -87,7 +94,7 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [new chrome.declarativeContent.PageStateMatcher({
-                pageUrl: {urlMatches: '.*\.bingosync\.com\/room\/.*'},
+                pageUrl: {urlMatches: '.*\.bingosync(\.bingothon)?\.com\/room\/.*'},
             })
             ],
             actions: [new chrome.declarativeContent.ShowPageAction()]
