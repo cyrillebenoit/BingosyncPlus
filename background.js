@@ -2,7 +2,10 @@ let config = localStorage.getItem("bsp_config");
 
 function updateTabs(message) {
     browser.tabs.query({
-        url: '*://*.bingosync.com/room/*'
+        url: [
+            '*://*.bingosync.com/room/*',
+            '*://*.bingosync.bingothon.com/room/*'
+        ]
     }).then(tabs => {
         for (const tab of tabs) {
             browser.tabs.sendMessage(tab.id, message);
