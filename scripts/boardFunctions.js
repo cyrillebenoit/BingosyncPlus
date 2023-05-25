@@ -122,7 +122,7 @@ function ensureBingosyncPlusSettingsBox() {
         </div>
         </div>
         <div style="width:100%;text-align: right;font-size: 7pt; padding-right: 4px; color: #505050;">
-        v2.6.2
+        v2.6.3
         </div>
         </div>
 

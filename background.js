@@ -4,7 +4,8 @@ function updateTabs(message) {
     browser.tabs.query({
         url: [
             '*://*.bingosync.com/room/*',
-            '*://*.bingosync.bingothon.com/room/*'
+            '*://*.bingosync.bingothon.com/room/*',
+            "*://*.bingo.saesr.events/room/*"
         ]
     }).then(tabs => {
         for (const tab of tabs) {
