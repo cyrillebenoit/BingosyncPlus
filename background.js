@@ -15,6 +15,13 @@ function updateTabs(message) {
             chrome.tabs.sendMessage(tab.id, message);
         }
     });
+    chrome.tabs.query({
+        url: '*://*.bingo.saesr.events/room/*'
+    }, tabs => {
+        for (const tab of tabs) {
+            chrome.tabs.sendMessage(tab.id, message);
+        }
+    });
 }
 
 function convertBlobToArrayBuffer(blob) {
