@@ -232,7 +232,7 @@ new MutationObserver(checkStatusOnLoad).observe(document.getElementsByClassName(
 
 function getRecentDate(time) {
     let now = new Date();
-    const dateString = `${now.getFullYear()}-${(now.getMonth() < 10 ? '0' : '') + (1 + now.getMonth())}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
+    const dateString = `${now.getFullYear()}-${(now.getMonth() < 9 ? '0' : '') + (1 + now.getMonth())}-${(now.getDate() < 10 ? '0' : '') + now.getDate()}T${time}`;
     let fullDate = Date.parse(dateString);
     while (fullDate > Date.now()) {
         fullDate -= 24 * 60 * 60 * 1000;
